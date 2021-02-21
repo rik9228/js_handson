@@ -1,13 +1,13 @@
 "use strict";
-{
+(() => {
   const datas = [
     { to: "bookmark.html", img: "1.png", alt: "画像1", text: "ブックマーク" },
     { to: "message.html", img: "2.png", alt: "画像2", text: "メッセージ" },
   ];
 
-  function insertLi(datas) {
+  function createLi() {
     for (let i = 0; i < datas.length; i++) {
-      const list = document.getElementById("list");
+      const ul = document.getElementsByTagName("ul");
       const li = document.createElement("li");
       const img = document.createElement("img");
       const a = document.createElement("a");
@@ -21,10 +21,15 @@
       img.after(text);
 
       li.appendChild(a);
-      list.appendChild(li);
+      ul[0].appendChild(li);
     }
   }
 
-  const firstPromise = new Promise((resolve, reject) => resolve(datas));
-  firstPromise.then((datas) => insertLi(datas));
-}
+  const promise = new Promise((resolve) => {
+    resolve();
+  });
+
+  promise.then(() => {
+    createLi();
+  });
+})();
