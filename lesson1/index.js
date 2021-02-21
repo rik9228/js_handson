@@ -1,7 +1,7 @@
 "use strict";
-(() => {
-  const ul = document.getElementsByTagName("ul");
+{
+  const list = document.getElementById("list");
   const li = document.createElement("li");
   li.textContent = "これです";
-  ul[0].appendChild(li);
-})();
+  list.appendChild(li);
+}
