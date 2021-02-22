@@ -1,13 +1,14 @@
 "use strict";
-(() => {
+
+{
   const datas = [
     { to: "bookmark.html", img: "1.png", alt: "画像1", text: "ブックマーク" },
     { to: "message.html", img: "2.png", alt: "画像2", text: "メッセージ" },
   ];
 
-  function createLi() {
+  function createListView(datas) {
     for (let i = 0; i < datas.length; i++) {
-      const ul = document.getElementsByTagName("ul");
+      const list = document.getElementById("list");
       const li = document.createElement("li");
       const img = document.createElement("img");
       const a = document.createElement("a");
@@ -21,17 +22,15 @@
       img.after(text);
 
       li.appendChild(a);
-      ul[0].appendChild(li);
+      list.appendChild(li);
     }
   }
 
-  const promise = new Promise((resolve) => {
+  const asyncCreateListView = new Promise((resolve) => {
     setTimeout(() => {
-      resolve();
+      resolve(datas);
     }, 3000);
   });
 
-  promise.then(() => {
-    createLi();
-  });
-})();
+  asyncCreateListView.then((datas) => createListView(datas));
+}
