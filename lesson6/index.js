@@ -5,9 +5,11 @@ const datas = [
   { to: "message.html", img: "2.png", alt: "画像2", text: "メッセージ" },
 ];
 
+const list = document.getElementById("list");
+let fragment = document.createDocumentFragment();
+
 function createListView(datas) {
   for (let i = 0; i < datas.length; i++) {
-    const list = document.getElementById("list");
     const li = document.createElement("li");
     const img = document.createElement("img");
     const a = document.createElement("a");
@@ -21,8 +23,10 @@ function createListView(datas) {
     img.after(text);
 
     li.appendChild(a);
-    list.appendChild(li);
+    fragment.appendChild(li);
   }
+  // ループ終了後にまとめてDOM追加 → list へのアクセスが1回だけで済む。
+  list.appendChild(fragment);
 }
 
 const fetchData = new Promise((resolve) => {
