@@ -6,7 +6,7 @@ const datas = [
 ];
 
 const list = document.getElementById("list");
-let fragment = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 
 function createListView(datas) {
   for (let i = 0; i < datas.length; i++) {
