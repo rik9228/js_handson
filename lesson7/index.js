@@ -28,6 +28,7 @@ function createListView(datas) {
   list.appendChild(fragment);
 }
 
+// 画像を出力する
 function showImage() {
   const img = document.createElement("img");
   img.classList.add("gif");
@@ -36,6 +37,7 @@ function showImage() {
   body.appendChild(img);
 }
 
+// 画像を削除する
 function deleteImage() {
   const loadingGif = document.querySelector(".gif");
   loadingGif.remove();
