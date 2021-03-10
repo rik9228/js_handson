@@ -42,17 +42,11 @@ function deleteImage() {
 
 const fetchData = new Promise((resolve, reject) => {
   setTimeout(() => {
-    if (datas) {
-      reject(datas);
-    } else {
-      resolve(datas);
-    }
+    reject('ファイルを取得できませんでした');
   }, 3000);
 });
 
 showImage();
 
 fetchData
-  .then((datas) => createListView(datas))
-  .then(() => deleteImage())
-  .catch(() => console.error("error caused"));
+  .catch((error) => console.log(`実行結果：${error}`));
