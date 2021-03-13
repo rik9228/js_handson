@@ -16,9 +16,9 @@ function createListView(datas) {
     const a = document.createElement("a");
 
     const text = document.createTextNode(datas[i].text);
-    img.setAttribute("src", datas[i].img);
-    img.setAttribute("alt", datas[i].alt);
-    a.setAttribute("href", "/" + datas[i].to);
+    img.src = datas[i].img;
+    img.alt = datas[i].alt;
+    a.href = `/${datas[i].to}`;
     a.appendChild(img);
     a.appendChild(text);
     img.after(text);
@@ -29,7 +29,6 @@ function createListView(datas) {
   list.appendChild(fragment);
 }
 
-// 画像を出力する
 function showImage() {
   const img = document.createElement("img");
   img.classList.add("gif");
@@ -38,8 +37,7 @@ function showImage() {
   body.appendChild(img);
 }
 
-// 画像を削除する
-function deleteImage() {
+function deleteLoadingGif() {
   const loadingGif = document.querySelector(".gif");
   loadingGif.remove();
 }
@@ -47,7 +45,7 @@ function deleteImage() {
 function fetchData() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      return resolve(datas);
+      resolve(datas);
     }, 3000);
   });
 }
@@ -55,7 +53,7 @@ function fetchData() {
 async function showData() {
   await fetchData();
   createListView(datas);
-  deleteImage();
+  deleteLoadingGif();
 }
 
 showImage();
