@@ -41,7 +41,7 @@ function deleteLoadingGif() {
   loadingGif.remove();
 }
 
-function getResolve3Seconds() {
+function request() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(datas);
@@ -53,7 +53,7 @@ async function fetchData() {
   showImage();
   let res;
   try {
-    res = await getResolve3Seconds();
+    res = await request();
   } catch (error) {
     console.log(`実行結果：${error}`);
   } finally {
