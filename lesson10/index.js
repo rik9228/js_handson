@@ -5,7 +5,6 @@ const datas = [
   { to: "message.html", img: "2.png", alt: "画像2", text: "メッセージ" },
 ];
 
-const body = document.getElementById("body");
 const list = document.getElementById("list");
 const fragment = document.createDocumentFragment();
 
@@ -42,7 +41,7 @@ function deleteLoadingGif() {
   loadingGif.remove();
 }
 
-function fetchData() {
+function getResolve3Seconds() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(datas);
@@ -50,17 +49,21 @@ function fetchData() {
   });
 }
 
-async function showData() {
+async function fetchData() {
+  showImage();
+  let res;
   try {
-    await fetchData();
-    createListView(datas);
-    deleteLoadingGif();
+    res = await getResolve3Seconds();
   } catch (error) {
     console.log(`実行結果：${error}`);
   } finally {
-    console.log("finally節です");
+    deleteLoadingGif();
+    return res;
   }
 }
 
-showImage();
-showData();
+async function init() {
+  const data = await fetchData();
+  createListView(data);
+}
+init();
