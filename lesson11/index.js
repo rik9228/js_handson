@@ -66,4 +66,4 @@ const init = async () => {
   createListView(datas.data);
 };
 
-init();
+init().catch((error) => console.error("データを取得できませんでした"));
