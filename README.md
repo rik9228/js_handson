@@ -1,5 +1,5 @@
 # Javascriptハンズオン課題
-* 森田先生の実装課題を進めています！（11まで進みました）
+* 森田先生の実装課題を進めています！（lesson11着手中）
 https://github.com/kenmori/handsonFrontend/blob/master/work/markup/1.md
 
 
