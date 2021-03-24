@@ -4,16 +4,15 @@ const resourceUrl = "https://jsondata.okiba.me/v1/json/Y5k0t210321123802";
 const list = document.getElementById("list");
 const fragment = document.createDocumentFragment();
 
-const createListView = (datas) => {
-  for (let i = 0; i < datas.length; i++) {
+const createListView = (data) => {
+  for (let i = 0; i < data.length; i++) {
     const li = document.createElement("li");
     const img = document.createElement("img");
     const a = document.createElement("a");
-
-    const text = document.createTextNode(datas[i].text);
-    img.src = datas[i].img;
-    img.alt = datas[i].alt;
-    a.href = `/${datas[i].to}`;
+    const text = document.createTextNode(data[i].text);
+    img.src = data[i].img;
+    img.alt = data[i].alt;
+    a.href = `/${data[i].to}`;
     a.appendChild(img);
     a.appendChild(text);
     img.after(text);
@@ -52,9 +51,10 @@ const fetchData = async () => {
   let res;
   try {
     await timeout(3000);
-    res = await request();
+    res = (await request()).data;
   } catch (error) {
     console.log(`実行結果：${error}`);
+    res = [];
   } finally {
     deleteLoadingGif();
     return res;
@@ -62,8 +62,8 @@ const fetchData = async () => {
 };
 
 const init = async () => {
-  const datas = await fetchData();
-  createListView(datas.data);
+  const data = await fetchData();
+  createListView(data);
 };
 
-init().catch((error) => console.error("データを取得できませんでした"));
+init();
