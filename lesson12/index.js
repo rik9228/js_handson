@@ -2,6 +2,7 @@
 
 const resourceUrl = "https://jsondata.okiba.me/v1/json/Y5k0t210321123802";
 const list = document.getElementById("list");
+const button = document.getElementById("js-button");
 const fragment = document.createDocumentFragment();
 
 const createListView = (data) => {
@@ -66,6 +67,7 @@ const init = async () => {
   createListView(data);
 };
 
-window.addEventListener("click", () => {
+button.addEventListener("click", () => {
+  button.style.display = "none";
   init();
 });
