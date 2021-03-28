@@ -1,0 +1,84 @@
+"use strict";
+
+const resourceUrl = "https://jsondata.okiba.me/v1/json/Y5k0t210321123802";
+const list = document.getElementById("list");
+const modal = document.getElementById("modal");
+const modalWrapper = document.querySelector(".modal__wrapper");
+const requestButton = document.getElementById("js-request");
+const modalButton = document.getElementById("js-modal");
+const closeButton = document.getElementById("js-close");
+const fragment = document.createDocumentFragment();
+
+const createListView = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    const a = document.createElement("a");
+    const text = document.createTextNode(data[i].text);
+    img.src = data[i].img;
+    img.alt = data[i].alt;
+    a.href = `/${data[i].to}`;
+    a.appendChild(img);
+    a.appendChild(text);
+    img.after(text);
+
+    li.appendChild(a);
+    fragment.appendChild(li);
+  }
+  list.appendChild(fragment);
+};
+
+const showImage = () => {
+  const img = document.createElement("img");
+  img.classList.add("gif");
+  img.setAttribute("src", "loading-circle.gif");
+  modalWrapper.insertBefore(img, requestButton);
+};
+
+const deleteLoadingGif = () => {
+  const loadingGif = document.querySelector(".gif");
+  loadingGif.remove();
+};
+
+const timeout = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+const request = async () => {
+  const resource = await fetch(resourceUrl);
+  const deploymentResource = await resource.json();
+  return deploymentResource;
+};
+
+const fetchData = async () => {
+  showImage();
+  let res;
+  try {
+    await timeout(3000);
+    res = (await request()).data;
+  } catch (error) {
+    console.log(`実行結果：${error}`);
+    res = [];
+  } finally {
+    deleteLoadingGif();
+    return res;
+  }
+};
+
+const init = async () => {
+  const data = await fetchData();
+  createListView(data);
+};
+
+modalButton.addEventListener("click", () => {
+  modal.classList.add("js-show");
+});
+
+closeButton.addEventListener("click", () => {
+  modal.classList.remove("js-show");
+});
+
+requestButton.addEventListener("click", () => {
+  requestButton.style.display = "none";
+  init();
+});
