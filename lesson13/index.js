@@ -1,7 +1,7 @@
 "use strict";
 
 const resourceUrl = "https://jsondata.okiba.me/v1/json/Y5k0t210321123802";
-const list = document.getElementById("list");
+const lists = document.getElementById("lists");
 const modal = document.getElementById("modal");
 const modalWrapper = document.querySelector(".modal__wrapper");
 const requestButton = document.getElementById("js-request");
@@ -46,8 +46,8 @@ const timeout = (ms) => {
 
 const request = async () => {
   const resource = await fetch(resourceUrl);
-  const deploymentResource = await resource.json();
-  return deploymentResource;
+  const json = await resource.json();
+  return json;
 };
 
 const fetchData = async () => {
