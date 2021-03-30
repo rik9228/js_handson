@@ -25,7 +25,7 @@ const createListView = (data) => {
     li.appendChild(a);
     fragment.appendChild(li);
   }
-  list.appendChild(fragment);
+  lists.appendChild(fragment);
 };
 
 const showImage = () => {
