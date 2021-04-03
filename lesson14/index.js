@@ -51,11 +51,11 @@ const request = async () => {
   return json;
 };
 
-const fetchData = async () => {
+const fetchData = async (value) => {
   showImage();
   let res;
   try {
-    console.log(input.value);
+    console.log(value);
     await timeout(3000);
     res = (await request()).data;
   } catch (error) {
@@ -67,8 +67,8 @@ const fetchData = async () => {
   }
 };
 
-const init = async () => {
-  const data = await fetchData();
+const init = async (value) => {
+  const data = await fetchData(value);
   createListView(data);
 };
 
@@ -82,5 +82,6 @@ closeButton.addEventListener("click", () => {
 
 requestButton.addEventListener("click", () => {
   requestButton.style.display = "none";
-  init();
+  const inputValue = input.value;
+  init(inputValue);
 });
