@@ -1,0 +1,91 @@
+
+* {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+}
+
+.wrapper {
+  width: calc(100% - 32px * 2);
+  margin: 32px auto 0;
+}
+
+.button {
+  cursor: pointer;
+  padding: 0.3em;
+}
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  background: #00000070;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal.js-show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__wrapper {
+  max-width: 300px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  background: #eeebed;
+  box-shadow: 0 2px 2px 0 #eeebed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+}
+
+.modal__box {
+  margin-top: 24px;
+}
+
+.modal__request-button,
+.modal__close-button {
+  padding: 0.5em;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal__close-button {
+  margin-top: 32px;
+}
+
+.modal__request-button {
+  display: block;
+  width: 80%;
+  margin-top: 16px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.modal__input {
+  padding: 0.5em;
+  display: block;
+  margin: 8px auto 0;
+  width: 100%;
+}
+
+.modal__label--name,
+.modal__label--number {
+  display: block;
+}
