@@ -41,10 +41,6 @@ const deleteLoadingGif = () => {
   loadingGif.remove();
 };
 
-const timeout = (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
 const request = async () => {
   const resource = await fetch(resourceUrl);
   const json = await resource.json();
@@ -56,7 +52,6 @@ const fetchData = async (num, name) => {
   let res;
   try {
     console.log(`数値：${num} 名前：${name}`);
-    await timeout(3000);
     res = (await request()).data;
   } catch (error) {
     console.log(`実行結果：${error}`);
