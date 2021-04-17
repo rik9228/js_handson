@@ -1,6 +1,6 @@
 "use strict";
 
-const resourceUrl = "https://jsondata.okiba.me/v1/json/9fdan210415150908";
+const resourceUrl = "https://jsondata.okiba.me/ta/v1/json/9fdan210415150908";
 const newsBlock = document.querySelector(".news");
 const tabs = document.querySelector(".news__listFrame");
 const fragment = document.createDocumentFragment();
@@ -94,11 +94,6 @@ const createArticleView = (content) => {
 };
 
 const createContentView = (datas) => {
-  // リクエストエラーで空の配列が渡ってきた時
-  if (datas.length === 0) {
-    return;
-  }
-  
   const contents = datas.data;
   contents.forEach((content) => {
     createTabsView(content);
@@ -120,7 +115,6 @@ const fetchData = async () => {
     res = await request();
   } catch (error) {
     res = [];
-    lists.textContent = "ただいまサーバー側で通信がぶっ壊れています";
   } finally {
     return res;
   }
@@ -128,6 +122,10 @@ const fetchData = async () => {
 
 const init = async () => {
   const datas = await fetchData();
+  if (datas.length === 0) {
+    lists.textContent = "コンテンツがありません";
+    return;
+  }
   createContentView(datas);
 };
 
