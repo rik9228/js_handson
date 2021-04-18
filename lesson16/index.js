@@ -1,50 +1,52 @@
 "use strict";
 
-const resourceUrl = "https://jsondata.okiba.me/ta/v1/json/9fdan210415150908";
+const resourceUrl = "https://jsondata.okiba.me/v1/json/0vstM210418045638";
 const newsBlock = document.querySelector(".news");
 const tabs = document.querySelector(".news__listFrame");
 const fragment = document.createDocumentFragment();
-const fragmentSecond = document.createDocumentFragment();
+let primaryElement; // could be <div class="news__wrapper">
+let lists; // could be <div class="news__listFrame--second">
+let primaryImageWrapper; // could be <div class="news__partition">
 
-// DOMの初期化処理（グローバルに参照できるようにするため、関数化しない）
-const primaryElement = document.createElement("div");
-primaryElement.classList.add("news__wrapper");
-const lists = document.createElement("ul");
-lists.classList.add("news__listFrame--second");
-const primaryImageWrapper = document.createElement("div");
-primaryImageWrapper.classList.add("news__partition");
-primaryElement.appendChild(lists);
-primaryElement.appendChild(primaryImageWrapper);
-newsBlock.appendChild(primaryElement);
-// 初期化処理ここまで
+const initCreateDOM = () => {
+  primaryElement = document.createElement("div");
+  primaryElement.classList.add("news__wrapper");
+  lists = document.createElement("ul");
+  lists.classList.add("news__listFrame--second");
+  primaryImageWrapper = document.createElement("div");
+  primaryImageWrapper.classList.add("news__partition");
+  primaryElement.appendChild(lists);
+  primaryElement.appendChild(primaryImageWrapper);
+  newsBlock.appendChild(primaryElement);
+};
 
-const createTabsView = (content) => {
+const createTabsView = (content, index) => {
   const tab = document.createElement("li");
 
-  // newsタブにはデフォルトでcurrentクラスの付与
-  if (content.id === "news") {
-    tab.classList.add("news__listItem", "js-current");
+  if (index === 0) {
+    tab.classList.add("active");
   }
 
   tab.classList.add("news__listItem");
-  tab.textContent = content.category_ja;
-  fragment.appendChild(tab);
-  tabs.appendChild(fragment);
+  tab.dataset.num = index;
+  tab.textContent = content.category;
+  tabs.appendChild(tab);
 
   tab.addEventListener("click", () => {
     while (lists.firstChild) {
       lists.removeChild(lists.firstChild);
     }
 
-    const tabChild = tabs.children;
-    for (let i = 0; i < tabChild.length; i++) {
-      tabChild[i].classList.remove("js-current");
+    const tabsChildren = tabs.children;
+    for (let i = 0; i < tabsChildren.length; i++) {
+      tabsChildren[i].classList.remove("active");
     }
 
-    tab.classList.add("js-current");
+    tab.classList.add("active");
 
-    if (content.category_ja === tab.textContent) {
+    if (content.id === Number(tab.dataset.num)) {
       createArticleView(content);
+      createImageView(content);
     }
   });
 };
@@ -60,45 +62,58 @@ const createImageView = (content) => {
   primaryImageWrapper.appendChild(primaryImage);
 };
 
+const createLiContent = (article) => {
+  const li = document.createElement("li");
+  li.classList.add("news__listItem--second");
+  const a = document.createElement("a");
+  li.appendChild(a);
+  a.textContent = article.title;
+  a.setAttribute("href", article.href);
+  return li;
+};
+
+const addNewForLi = (li) => {
+  const newIcon = document.createElement("span");
+  newIcon.classList.add("news__label");
+  newIcon.textContent = "NEW";
+  li.appendChild(newIcon);
+};
+
+const addCommentForLi = (article, li) => {
+  const comment = document.createElement("span");
+  comment.classList.add("news__comment");
+  const commentIcon = document.createElement("img");
+  commentIcon.classList.add("news__icon");
+  commentIcon.setAttribute("src", "img/comment_icon.svg");
+  comment.appendChild(commentIcon);
+  comment.insertAdjacentHTML("beforeend", article.commentCount);
+  li.appendChild(comment);
+};
+
 const createArticleView = (content) => {
   content.articles.forEach((article) => {
-    const li = document.createElement("li");
-    li.classList.add("news__listItem--second");
-    const a = document.createElement("a");
-    li.appendChild(a);
-    a.textContent = article.title;
-    a.setAttribute("href", article.href);
+    const li = createLiContent(article);
 
     if (article.isNew) {
-      const newIcon = document.createElement("span");
-      newIcon.classList.add("news__label");
-      newIcon.textContent = "NEW";
-      li.appendChild(newIcon);
+      addNewForLi(li);
     }
 
     if (article.commentCount) {
-      const comment = document.createElement("span");
-      comment.classList.add("news__comment");
-      const commentIcon = document.createElement("img");
-      commentIcon.classList.add("news__icon");
-      commentIcon.setAttribute("src", "img/comment_icon.svg");
-      comment.appendChild(commentIcon);
-      comment.insertAdjacentHTML("beforeend", article.commentCount);
-      li.appendChild(comment);
+      addCommentForLi(article, li);
     }
-    fragmentSecond.appendChild(li);
-  });
 
-  createImageView(content);
-  lists.appendChild(fragmentSecond);
+    fragment.appendChild(li);
+  });
+  lists.appendChild(fragment);
 };
 
 const createContentView = (datas) => {
   const contents = datas.data;
-  contents.forEach((content) => {
-    createTabsView(content);
+  contents.forEach((content, index) => {
+    createTabsView(content, index);
     if (content.isOpen) {
       createArticleView(content);
+      createImageView(content);
     }
   });
 };
@@ -121,6 +136,7 @@ const fetchData = async () => {
 };
 
 const init = async () => {
+  initCreateDOM();
   const datas = await fetchData();
   if (datas.length === 0) {
     lists.textContent = "コンテンツがありません";

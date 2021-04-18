@@ -94,7 +94,7 @@ h1 {
   padding: 0.3em;
 }
 
-.js-current {
+.active {
   background: #fff !important;
   color: #000 !important;
   font-weight: 800 !important;
