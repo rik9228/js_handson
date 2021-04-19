@@ -1,12 +1,12 @@
 "use strict";
 
-const resourceUrl = "https://jsondata.okiba.me/v1/json/0vstM210418045638";
+const resourceUrl = "https://jsondata.okiba.me/v1/json/Zg8J6210418234428";
 const newsBlock = document.querySelector(".news");
 const tabs = document.querySelector(".news__listFrame");
 const fragment = document.createDocumentFragment();
-let primaryElement; // could be <div class="news__wrapper">
-let lists; // could be <div class="news__listFrame--second">
-let primaryImageWrapper; // could be <div class="news__partition">
+let primaryElement;
+let lists;
+let primaryImageWrapper;
 
 const initCreateDOM = () => {
   primaryElement = document.createElement("div");
@@ -28,7 +28,7 @@ const createTabsView = (content, index) => {
   }
 
   tab.classList.add("news__listItem");
-  tab.dataset.num = index;
+  tab.dataset.id = content.id;
   tab.textContent = content.category;
   tabs.appendChild(tab);
 
@@ -44,7 +44,7 @@ const createTabsView = (content, index) => {
 
     tab.classList.add("active");
 
-    if (content.id === Number(tab.dataset.num)) {
+    if (content.id === Number(tab.dataset.id)) {
       createArticleView(content);
       createImageView(content);
     }
