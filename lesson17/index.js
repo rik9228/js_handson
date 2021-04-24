@@ -1,6 +1,6 @@
 "use strict";
 
-const resourceUrl = "https://jsondata.okiba.me/v1/json/IyRjh210424130717";
+const resourceUrl = "https://jsondata.okiba.me/v1/json/9gjw3210424132243";
 const body = document.getElementById("body");
 const wrapper = document.querySelector(".wrapper");
 const box = document.querySelector(".box");
