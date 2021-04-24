@@ -85,19 +85,16 @@ const changeImage = (list) => {
 
 init();
 
+const isFirst = () => {
+  return currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
+};
+
 prevButton.addEventListener("click", () => {
   const list = document.querySelectorAll(".listItem");
   currentNum--;
   navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
   changeImage(list); // OPTIMIZE この辺り（89,91行目含む）nextButton部と記述が近いので、改善ができるかもしれない
-
-  if (currentNum) {
-    nextButton.disabled = false;
-  }
-
-  if (!currentNum) {
-    prevButton.disabled = true;
-  }
+  isFirst();
 });
 
 nextButton.addEventListener("click", () => {
@@ -113,4 +110,5 @@ nextButton.addEventListener("click", () => {
   if (currentNum === list.length - 1) {
     nextButton.disabled = true;
   }
+
 });
