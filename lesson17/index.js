@@ -55,7 +55,7 @@ const createImages = (image, index) => {
   img.setAttribute("src", image.src);
   img.setAttribute("alt", image.alt);
   li.classList.add("listItem");
-  li.dataset.num = index; // HACK: data属性にindexをそのまま用いているがこれは適切か。
+  li.dataset.index = index; // HACK: data属性にindexをそのまま用いているがこれは適切か。
   li.append(img);
 
   if (index === 0) {
@@ -80,7 +80,7 @@ const createImagesView = (datas) => {
 
 const changeImage = (list) => {
   list.forEach((image) => {
-    if (Number(image.dataset.num) === slides.currentNum) {
+    if (Number(image.dataset.index) === slides.currentNum) {
       image.classList.add("active");
     } else {
       image.classList.remove("active");
