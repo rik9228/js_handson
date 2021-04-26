@@ -55,7 +55,7 @@ const createImages = (image, index) => {
   img.setAttribute("src", image.src);
   img.setAttribute("alt", image.alt);
   li.classList.add("listItem");
-  li.dataset.index = index; // HACK: data属性にindexをそのまま用いているがこれは適切か。
+  li.dataset.index = index;
   li.append(img);
 
   if (index === 0) {
@@ -67,9 +67,7 @@ const createImages = (image, index) => {
 
 const createImagesView = (datas) => {
   const images = datas.data;
-  images.forEach((image, index) => {
-    createImages(image, index);
-  });
+  images.forEach(createImages);
   box.appendChild(fragment);
   slides.length = box.children.length;
   navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
@@ -79,6 +77,7 @@ const createImagesView = (datas) => {
 };
 
 const changeImage = (list) => {
+  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   list.forEach((image) => {
     if (Number(image.dataset.index) === slides.currentNum) {
       image.classList.add("active");
@@ -98,18 +97,14 @@ const isLast = () => {
   return slides.currentNum === list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
 };
 
-
 prevButton.addEventListener("click", () => {
   slides.currentNum--;
-  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   isFirst();
   changeImage(list);
 });
 
 nextButton.addEventListener("click", () => {
   slides.currentNum++;
-  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   isLast();
   changeImage(list);
-
 });
