@@ -1,6 +1,6 @@
 "use strict";
 
-const resourceUrl = "https://jsondata.okiba.me/v1/json/9gjw3210424132243";
+const resourceUrl = "https://jsondata.okiba.me/v1/json/C58qe210426143842";
 const body = document.getElementById("body");
 const wrapper = document.querySelector(".wrapper");
 const box = document.querySelector(".box");
@@ -58,7 +58,7 @@ const createImages = (image, index) => {
   li.dataset.num = index; // HACK: data属性にindexをそのまま用いているがこれは適切か。
   li.append(img);
 
-  if (image.isCurrent) {
+  if (index === 0) {
     li.classList.add("active");
   }
   wrapper.classList.add("show");
