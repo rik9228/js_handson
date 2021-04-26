@@ -10,8 +10,11 @@ const navigationNum = document.querySelector(".navigation__num");
 const fragment = document.createDocumentFragment();
 let li;
 let list;
-let imageLength;
-let currentNum = 0;
+
+const slides = {
+  length: null,
+  currentNum: 0,
+};
 
 const timeout = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -68,16 +71,16 @@ const createImagesView = (datas) => {
     createImages(image, index);
   });
   box.appendChild(fragment);
-  imageLength = box.children.length;
-  navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
-  if (!currentNum) {
+  slides.length = box.children.length;
+  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
+  if (!slides.currentNum) {
     prevButton.disabled = true;
   }
 };
 
 const changeImage = (list) => {
   list.forEach((image) => {
-    if (Number(image.dataset.num) === currentNum) {
+    if (Number(image.dataset.num) === slides.currentNum) {
       image.classList.add("active");
     } else {
       image.classList.remove("active");
@@ -88,24 +91,24 @@ const changeImage = (list) => {
 init();
 
 const isFirst = () => {
-  return currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
+  return slides.currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
 };
 
 const isLast = () => {
-  return currentNum === list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
+  return slides.currentNum === list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
 };
 
 
 prevButton.addEventListener("click", () => {
-  currentNum--;
-  navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
+  slides.currentNum--;
+  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   isFirst();
   changeImage(list);
 });
 
 nextButton.addEventListener("click", () => {
-  currentNum++;
-  navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
+  slides.currentNum++;
+  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   isLast();
   changeImage(list);
 
