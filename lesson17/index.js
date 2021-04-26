@@ -9,6 +9,7 @@ const nextButton = document.querySelector(".prevNext__next");
 const navigationNum = document.querySelector(".navigation__num");
 const fragment = document.createDocumentFragment();
 let li;
+let list;
 let imageLength;
 let currentNum = 0;
 
@@ -41,6 +42,7 @@ const init = async () => {
     return;
   }
   createImagesView(datas);
+  list = document.querySelectorAll(".listItem");
 };
 
 const createImages = (image, index) => {
@@ -89,26 +91,22 @@ const isFirst = () => {
   return currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
 };
 
+const isLast = () => {
+  return currentNum === list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
+};
+
+
 prevButton.addEventListener("click", () => {
-  const list = document.querySelectorAll(".listItem");
   currentNum--;
   navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
-  changeImage(list); // OPTIMIZE この辺り（89,91行目含む）nextButton部と記述が近いので、改善ができるかもしれない
   isFirst();
+  changeImage(list);
 });
 
 nextButton.addEventListener("click", () => {
-  const list = document.querySelectorAll(".listItem");
   currentNum++;
   navigationNum.textContent = `${currentNum + 1}/${imageLength}`;
-  changeImage(list); // OPTIMIZE：prevButtonと同様
-
-  if (currentNum) {
-    prevButton.disabled = false;
-  }
-
-  if (currentNum === list.length - 1) {
-    nextButton.disabled = true;
-  }
+  isLast();
+  changeImage(list);
 
 });
