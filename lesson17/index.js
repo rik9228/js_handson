@@ -7,7 +7,6 @@ const box = document.querySelector(".box");
 const prevButton = document.querySelector(".arrow__prev");
 const nextButton = document.querySelector(".arrow__next");
 const navNum = document.querySelector(".nav__num");
-const fragment = document.createDocumentFragment();
 let list;
 
 const slides = {
@@ -48,6 +47,7 @@ const init = async () => {
 };
 
 const createImages = (image, index) => {
+  const fragment = document.createDocumentFragment();
   const li = document.createElement("li");
   const img = document.createElement("img");
   img.classList.add("image");
@@ -62,12 +62,12 @@ const createImages = (image, index) => {
   }
   wrapper.classList.add("show");
   fragment.appendChild(li);
+  box.appendChild(fragment);
 };
 
 const createImagesView = (datas) => {
   const images = datas.data;
   images.forEach(createImages);
-  box.appendChild(fragment);
   slides.length = box.children.length;
   navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   if (!slides.currentNum) {
