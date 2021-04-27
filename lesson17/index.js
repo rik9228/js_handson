@@ -4,9 +4,9 @@ const resourceUrl = "https://jsondata.okiba.me/v1/json/C58qe210426143842";
 const body = document.getElementById("body");
 const wrapper = document.querySelector(".wrapper");
 const box = document.querySelector(".box");
-const prevButton = document.querySelector(".prevNext__prev");
-const nextButton = document.querySelector(".prevNext__next");
-const navigationNum = document.querySelector(".navigation__num");
+const prevButton = document.querySelector(".arrow__prev");
+const nextButton = document.querySelector(".arrow__next");
+const navNum = document.querySelector(".nav__num");
 const fragment = document.createDocumentFragment();
 let list;
 
@@ -69,14 +69,14 @@ const createImagesView = (datas) => {
   images.forEach(createImages);
   box.appendChild(fragment);
   slides.length = box.children.length;
-  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
+  navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   if (!slides.currentNum) {
     prevButton.disabled = true;
   }
 };
 
 const changeImage = (list) => {
-  navigationNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
+  navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
   list.forEach((image) => {
     if (Number(image.dataset.index) === slides.currentNum) {
       image.classList.add("active");
