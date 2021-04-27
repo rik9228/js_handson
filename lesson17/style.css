@@ -26,7 +26,7 @@ img {
   height: 333px;
 }
 
-li {
+.listItem {
   position: absolute;
   top: 0;
   left: 50%;
