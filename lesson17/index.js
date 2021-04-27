@@ -8,7 +8,6 @@ const prevButton = document.querySelector(".prevNext__prev");
 const nextButton = document.querySelector(".prevNext__next");
 const navigationNum = document.querySelector(".navigation__num");
 const fragment = document.createDocumentFragment();
-let li;
 let list;
 
 const slides = {
@@ -49,7 +48,7 @@ const init = async () => {
 };
 
 const createImages = (image, index) => {
-  li = document.createElement("li");
+  const li = document.createElement("li");
   const img = document.createElement("img");
   img.classList.add("image");
   img.setAttribute("src", image.src);
