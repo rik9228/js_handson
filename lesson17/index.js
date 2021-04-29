@@ -11,6 +11,9 @@ const navNum = document.getElementById("js-navNum");
 const slides = {
   list: null,
   currentNum: 0,
+  updateCurrentNumber(number) {
+    this.currentNum = this.currentNum + number;
+  },
 };
 
 const timeout = (ms) => {
@@ -73,10 +76,10 @@ const createImagesView = (datas) => {
   }
 };
 
-const changeImage = (list, beforeNum, afterNum) => {
-  navNum.textContent = `${afterNum + 1}/${list.length}`;
+const changeImage = (beforeNum, { list, list: { length }, currentNum }) => {
+  navNum.textContent = `${currentNum + 1}/${length}`;
   list[beforeNum].classList.remove("active");
-  list[afterNum].classList.add("active");
+  list[currentNum].classList.add("active");
 };
 
 init();
@@ -91,14 +94,14 @@ const disabledNextCurrentLast = () => {
 
 prevButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
-  slides.currentNum--;
-  changeImage(slides.list, beforeNum, slides.currentNum);
+  slides.updateCurrentNumber(-1);
+  changeImage(beforeNum, slides);
   disabledPrevCurrentFirst();
 });
 
 nextButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
-  slides.currentNum++;
-  changeImage(slides.list, beforeNum, slides.currentNum);
+  slides.updateCurrentNumber(1);
+  changeImage(beforeNum, slides);
   disabledNextCurrentLast();
 });
