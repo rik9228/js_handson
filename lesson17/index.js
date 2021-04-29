@@ -2,15 +2,14 @@
 
 const resourceUrl = "https://jsondata.okiba.me/v1/json/C58qe210426143842";
 const body = document.getElementById("body");
-const wrapper = document.querySelector(".wrapper");
-const box = document.querySelector(".box");
-const prevButton = document.querySelector(".arrow__prev");
-const nextButton = document.querySelector(".arrow__next");
-const navNum = document.querySelector(".nav__num");
-let list;
+const wrapper = document.getElementById("js-wrapper");
+const slideList = document.getElementById("js-slideList");
+const prevButton = document.getElementById("js-prev");
+const nextButton = document.getElementById("js-next");
+const navNum = document.getElementById("js-navNum");
 
 const slides = {
-  length: null,
+  list: null,
   currentNum: 0,
 };
 
@@ -39,11 +38,10 @@ const fetchData = async () => {
 const init = async () => {
   const datas = await fetchData();
   if (datas.length === 0) {
-    box.textContent = "コンテンツがありません";
+    slideList.textContent = "コンテンツがありません";
     return;
   }
   createImagesView(datas);
-  list = document.querySelectorAll(".listItem");
 };
 
 const createImages = (image, index) => {
@@ -62,48 +60,45 @@ const createImages = (image, index) => {
   }
   wrapper.classList.add("show");
   fragment.appendChild(li);
-  box.appendChild(fragment);
+  slideList.appendChild(fragment);
 };
 
 const createImagesView = (datas) => {
   const images = datas.data;
   images.forEach(createImages);
-  slides.length = box.children.length;
-  navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
+  slides.list = document.querySelectorAll(".listItem");
+  navNum.textContent = `${slides.currentNum + 1}/${slides.list.length}`;
   if (!slides.currentNum) {
     prevButton.disabled = true;
   }
 };
 
-const changeImage = (list) => {
-  navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
-  list.forEach((image) => {
-    if (Number(image.dataset.index) === slides.currentNum) {
-      image.classList.add("active");
-    } else {
-      image.classList.remove("active");
-    }
-  });
+const changeImage = (list, beforeNum, afterNum) => {
+  navNum.textContent = `${afterNum + 1}/${list.length}`;
+  list[beforeNum].classList.remove("active");
+  list[afterNum].classList.add("active");
 };
 
 init();
 
-const isFirst = () => {
+const disabledPrevCurrentFirst = () => {
   return slides.currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
 };
 
-const isLast = () => {
-  return slides.currentNum === list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
+const disabledNextCurrentLast = () => {
+  return slides.currentNum === slides.list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
 };
 
 prevButton.addEventListener("click", () => {
+  const beforeNum = slides.currentNum;
   slides.currentNum--;
-  isFirst();
-  changeImage(list);
+  changeImage(slides.list, beforeNum, slides.currentNum);
+  disabledPrevCurrentFirst();
 });
 
 nextButton.addEventListener("click", () => {
+  const beforeNum = slides.currentNum;
   slides.currentNum++;
-  isLast();
-  changeImage(list);
+  changeImage(slides.list, beforeNum, slides.currentNum);
+  disabledNextCurrentLast();
 });
