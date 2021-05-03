@@ -10,7 +10,7 @@ const navNum = document.getElementById("js-navNum");
 const navDots = document.getElementById("js-navDots");
 
 /**
- * fragmentに関しての備考
+ * NOTE:fragmentに関しての備考
  * グローバルで参照 + 2箇所使用する必要があるので、ここに定義
  * ▶︎ 要素.forEach(関数名)で処理をする場合（90行目、94行目）ここに定義するのが最適解と判断。
  * ※lesson17でのfragmentの定義場所に誤りがありました
@@ -44,7 +44,7 @@ const request = async () => {
 const fetchData = async () => {
   let res;
   try {
-    // await timeout(3000);
+    await timeout(3000);
     res = await request();
   } catch (error) {
     res = [];
@@ -85,6 +85,10 @@ const createImages = (image, index) => {
 
 const autoPlay = () => {
   timeOutId = setTimeout(() => {
+    /**
+     * OPTIMIZE:前回、引数をオブジェクトで取る方法(154行目）を用いようとしましたが、
+     * 扱いが難しかったので断念しました。ご了承ください。
+     */
     const beforeNum = slides.currentNum;
 
     // 最後の画像の時
