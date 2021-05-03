@@ -44,7 +44,7 @@ const request = async () => {
 const fetchData = async () => {
   let res;
   try {
-    await timeout(3000);
+    // await timeout(3000);
     res = await request();
   } catch (error) {
     res = [];
@@ -128,7 +128,23 @@ const createImagesView = (datas) => {
   slides.list.forEach(createSlideDots);
   navDots.appendChild(fragment);
 
+  if (slides.currentNum === 0) {
+    prevButton.disabled = true;
+  }
+
   navNum.textContent = `${slides.currentNum + 1}/${slides.list.length}`;
+};
+
+const changePrevNextState = (currentNum) => {
+  if (currentNum === slides.list.length - 1) {
+    nextButton.disabled = true;
+  } else if (currentNum === 0) {
+    prevButton.disabled = true;
+    nextButton.disabled = false;
+  } else {
+    nextButton.disabled = false;
+    prevButton.disabled = false;
+  }
 };
 
 const changeImage = (beforeNum, { list, list: { length }, currentNum }, navDots) => {
@@ -139,6 +155,9 @@ const changeImage = (beforeNum, { list, list: { length }, currentNum }, navDots)
   // ドットの変更処理
   navDots.children[beforeNum].classList.remove("current");
   navDots.children[currentNum].classList.add("current");
+
+  // 前後ボタンの状態切替
+  changePrevNextState(currentNum);
 };
 
 prevButton.addEventListener("click", () => {
