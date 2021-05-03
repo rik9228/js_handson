@@ -7,12 +7,27 @@ const slideList = document.getElementById("js-slideList");
 const prevButton = document.getElementById("js-prev");
 const nextButton = document.getElementById("js-next");
 const navNum = document.getElementById("js-navNum");
+const navDots = document.getElementById("js-navDots");
+
+/**
+ * fragmentに関しての備考
+ * グローバルで参照 + 2箇所使用する必要があるので、ここに定義
+ * ▶︎ 要素.forEach(関数名)で処理をする場合（90行目、94行目）ここに定義するのが最適解と判断。
+ * ※lesson17でのfragmentの定義場所に誤りがありました
+ */
+let fragment = document.createDocumentFragment();
+let timeOutId = null;
 
 const slides = {
   list: null,
   currentNum: 0,
   updateCurrentNumber(number) {
     this.currentNum = this.currentNum + number;
+    if (this.currentNum === this.list.length) {
+      this.currentNum = 0;
+    } else if (this.currentNum === -1) {
+      this.currentNum = this.list.length - 1;
+    }
   },
 };
 
@@ -45,10 +60,12 @@ const init = async () => {
     return;
   }
   createImagesView(datas);
+  autoPlay();
 };
 
+init();
+
 const createImages = (image, index) => {
-  const fragment = document.createDocumentFragment();
   const li = document.createElement("li");
   const img = document.createElement("img");
   img.classList.add("image");
@@ -61,47 +78,79 @@ const createImages = (image, index) => {
   if (index === 0) {
     li.classList.add("active");
   }
+
   wrapper.classList.add("show");
   fragment.appendChild(li);
-  slideList.appendChild(fragment);
+};
+
+const autoPlay = () => {
+  timeOutId = setTimeout(() => {
+    const beforeNum = slides.currentNum;
+
+    // 最後の画像の時
+    if (slides.currentNum === slides.list.length - 1) {
+      slides.currentNum = -1;
+      navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
+    }
+
+    slides.currentNum++;
+
+    changeImage(beforeNum, slides, navDots);
+    autoPlay();
+  }, 3000);
+};
+
+const createSlideDots = (slide, index) => {
+  const li = document.createElement("li");
+  li.classList.add("nav__dot");
+  li.dataset.num = index;
+
+  if (slides.currentNum === Number(li.dataset.num) && slide.classList.contains("active")) {
+    li.classList.add("current");
+  }
+  fragment.appendChild(li);
+
+  li.addEventListener("click", () => {
+    const beforeNum = slides.currentNum;
+    slides.currentNum = Number(li.dataset.num);
+    changeImage(beforeNum, slides, navDots);
+    clearTimeout(timeOutId);
+  });
 };
 
 const createImagesView = (datas) => {
   const images = datas.data;
   images.forEach(createImages);
+  slideList.appendChild(fragment);
   slides.list = document.querySelectorAll(".listItem");
+
+  // ドットの初期化処理
+  slides.list.forEach(createSlideDots);
+  navDots.appendChild(fragment);
+
   navNum.textContent = `${slides.currentNum + 1}/${slides.list.length}`;
-  if (!slides.currentNum) {
-    prevButton.disabled = true;
-  }
 };
 
-const changeImage = (beforeNum, { list, list: { length }, currentNum }) => {
+const changeImage = (beforeNum, { list, list: { length }, currentNum }, navDots) => {
   navNum.textContent = `${currentNum + 1}/${length}`;
   list[beforeNum].classList.remove("active");
   list[currentNum].classList.add("active");
-};
 
-init();
-
-const disabledPrevCurrentFirst = () => {
-  return slides.currentNum ? (nextButton.disabled = false) : (prevButton.disabled = true);
-};
-
-const disabledNextCurrentLast = () => {
-  return slides.currentNum === slides.list.length - 1 ? (nextButton.disabled = true) : (prevButton.disabled = false);
+  // ドットの変更処理
+  navDots.children[beforeNum].classList.remove("current");
+  navDots.children[currentNum].classList.add("current");
 };
 
 prevButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
   slides.updateCurrentNumber(-1);
-  changeImage(beforeNum, slides);
-  disabledPrevCurrentFirst();
+  changeImage(beforeNum, slides, navDots);
+  clearTimeout(timeOutId);
 });
 
 nextButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
   slides.updateCurrentNumber(1);
-  changeImage(beforeNum, slides);
-  disabledNextCurrentLast();
+  changeImage(beforeNum, slides, navDots);
+  clearTimeout(timeOutId);
 });
