@@ -107,16 +107,15 @@ const autoPlay = () => {
 const createSlideDots = (slide, index) => {
   const li = document.createElement("li");
   li.classList.add("nav__dot");
-  li.dataset.num = index;
 
-  if (slides.currentNum === Number(li.dataset.num) && slide.classList.contains("active")) {
+  if (slides.currentNum === index && slide.classList.contains("active")) {
     li.classList.add("current");
   }
   fragment.appendChild(li);
 
   li.addEventListener("click", () => {
     const beforeNum = slides.currentNum;
-    slides.currentNum = Number(li.dataset.num);
+    slides.currentNum = index;
     changeImage(beforeNum, slides, navDots);
     clearTimeout(timeOutId);
   });
