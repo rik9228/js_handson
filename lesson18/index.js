@@ -150,7 +150,12 @@ const changePrevNextState = (currentNum) => {
   }
 };
 
-const changeImage = (beforeNum, { list, list: { length }, currentNum }, navDots) => {
+const changeImage = (beforeNum, slides, navDots) => {
+  const {
+    list,
+    list: { length },
+    currentNum,
+  } = slides;
   navNum.textContent = `${currentNum + 1}/${length}`;
   list[beforeNum].classList.remove("active");
   list[currentNum].classList.add("active");
