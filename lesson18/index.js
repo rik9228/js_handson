@@ -73,7 +73,7 @@ const createImages = (image, index) => {
   img.setAttribute("alt", image.alt);
   li.classList.add("listItem");
   li.dataset.index = index;
-  li.append(img);
+  li.appendChild(img);
 
   if (index === 0) {
     li.classList.add("active");
