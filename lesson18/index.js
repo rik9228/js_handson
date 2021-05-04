@@ -91,7 +91,6 @@ const autoPlay = () => {
      * 扱いが難しかったので断念しました。ご了承ください。
      */
     const beforeNum = slides.currentNum;
-
     slides.currentNum++;
 
     // 最後の画像の時
@@ -119,6 +118,7 @@ const createSlideDots = (slide, index) => {
     slides.currentNum = index;
     changeImage(beforeNum, slides, navDots);
     clearTimeout(timeOutId);
+    autoPlay();
   });
 };
 
@@ -174,6 +174,7 @@ prevButton.addEventListener("click", () => {
   slides.updateCurrentNumber(-1);
   changeImage(beforeNum, slides, navDots);
   clearTimeout(timeOutId);
+  autoPlay();
 });
 
 nextButton.addEventListener("click", () => {
@@ -181,4 +182,5 @@ nextButton.addEventListener("click", () => {
   slides.updateCurrentNumber(1);
   changeImage(beforeNum, slides, navDots);
   clearTimeout(timeOutId);
+  autoPlay();
 });
