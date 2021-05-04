@@ -15,7 +15,8 @@ const navDots = document.getElementById("js-navDots");
  * ▶︎ 要素.forEach(関数名)で処理をする場合（90行目、94行目）ここに定義するのが最適解と判断。
  * ※lesson17でのfragmentの定義場所に誤りがありました
  */
-let fragment = document.createDocumentFragment();
+let fragmentSlide = document.createDocumentFragment();
+let fragmentNavDots = document.createDocumentFragment();
 let timeOutId = null;
 
 const slides = {
@@ -80,7 +81,7 @@ const createImages = (image, index) => {
   }
 
   wrapper.classList.add("show");
-  fragment.appendChild(li);
+  fragmentSlide.appendChild(li);
 };
 
 const autoPlay = () => {
@@ -111,7 +112,7 @@ const createSlideDots = (slide, index) => {
   if (slides.currentNum === index && slide.classList.contains("active")) {
     li.classList.add("current");
   }
-  fragment.appendChild(li);
+  fragmentNavDots.appendChild(li);
 
   li.addEventListener("click", () => {
     const beforeNum = slides.currentNum;
@@ -124,12 +125,12 @@ const createSlideDots = (slide, index) => {
 const createImagesShow = (datas) => {
   const images = datas.data;
   images.forEach(createImages);
-  slideList.appendChild(fragment);
+  slideList.appendChild(fragmentSlide);
   slides.list = document.querySelectorAll(".listItem");
 
   // ドットの初期化処理
   slides.list.forEach(createSlideDots);
-  navDots.appendChild(fragment);
+  navDots.appendChild(fragmentNavDots);
 
   if (slides.currentNum === 0) {
     prevButton.disabled = true;
