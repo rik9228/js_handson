@@ -92,13 +92,13 @@ const autoPlay = () => {
      */
     const beforeNum = slides.currentNum;
 
+    slides.currentNum++;
+
     // 最後の画像の時
-    if (slides.currentNum === slides.list.length - 1) {
-      slides.currentNum = -1;
+    if (slides.currentNum === slides.list.length) {
+      slides.currentNum = 0;
       navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
     }
-
-    slides.currentNum++;
 
     changeImage(beforeNum, slides, navDots);
     autoPlay();
