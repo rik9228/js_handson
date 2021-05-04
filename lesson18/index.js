@@ -59,7 +59,7 @@ const init = async () => {
     slideList.textContent = "コンテンツがありません";
     return;
   }
-  createImagesView(datas);
+  createImagesShow(datas);
   autoPlay();
 };
 
@@ -122,7 +122,7 @@ const createSlideDots = (slide, index) => {
   });
 };
 
-const createImagesView = (datas) => {
+const createImagesShow = (datas) => {
   const images = datas.data;
   images.forEach(createImages);
   slideList.appendChild(fragment);
