@@ -11,7 +11,7 @@ const navDots = document.getElementById("js-navDots");
 
 /**
  * NOTE:fragmentに関しての備考
- * グローバルで参照 + 2箇所使用する必要があるので、ここに定義
+ * グローバルで参照 + 2箇所（createImagesShow）使用する必要があるので、ここに定義
  * ▶︎ 要素.forEach(関数名)で処理をする場合（90行目、94行目）ここに定義するのが最適解と判断。
  * ※lesson17でのfragmentの定義場所に誤りがありました
  */
