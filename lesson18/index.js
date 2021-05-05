@@ -45,7 +45,7 @@ const request = async () => {
 const fetchData = async () => {
   let res;
   try {
-    await timeout(1000);
+    await timeout(3000);
     res = await request();
   } catch (error) {
     res = [];
@@ -94,7 +94,7 @@ const autoPlay = () => {
     slides.updateCurrentNumber(1);
     changeImage(beforeNum, slides, navDots);
     autoPlay();
-  }, 1000);
+  }, 3000);
 };
 
 const createSlideDots = (slide, index) => {
