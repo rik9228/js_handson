@@ -22,7 +22,7 @@ let timeOutId = null;
 const slides = {
   list: null,
   currentNum: 0,
-  updateCurrentNumber(number) {
+  updateCurrentNumberOne(number) {
     this.currentNum = this.currentNum + number;
     if (this.currentNum === this.list.length) {
       this.currentNum = 0;
@@ -30,7 +30,7 @@ const slides = {
       this.currentNum = this.list.length - 1;
     }
   },
-  updateCurrentNumberDots(index) {
+  updateCurrentNumberDirectly(index) {
     this.currentNum = index;
   },
 };
@@ -94,7 +94,7 @@ const autoPlay = () => {
      * 扱いが難しかったので断念しました。ご了承ください。
      */
     const beforeNum = slides.currentNum;
-    slides.updateCurrentNumber(1);
+    slides.updateCurrentNumberOne(1);
     changeImage(beforeNum, slides, navDots);
     autoPlay();
   }, 3000);
@@ -111,7 +111,7 @@ const createSlideDots = (slide, index) => {
 
   li.addEventListener("click", () => {
     const beforeNum = slides.currentNum;
-    slides.updateCurrentNumberDots(index);
+    slides.updateCurrentNumberDirectly(index);
     changeImage(beforeNum, slides, navDots);
     clearTimeout(timeOutId);
     autoPlay();
@@ -167,7 +167,7 @@ const changeImage = (beforeNum, slides, navDots) => {
 
 prevButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
-  slides.updateCurrentNumber(-1);
+  slides.updateCurrentNumberOne(-1);
   changeImage(beforeNum, slides, navDots);
   clearTimeout(timeOutId);
   autoPlay();
@@ -175,7 +175,7 @@ prevButton.addEventListener("click", () => {
 
 nextButton.addEventListener("click", () => {
   const beforeNum = slides.currentNum;
-  slides.updateCurrentNumber(1);
+  slides.updateCurrentNumberOne(1);
   changeImage(beforeNum, slides, navDots);
   clearTimeout(timeOutId);
   autoPlay();
