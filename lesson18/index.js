@@ -30,8 +30,8 @@ const slides = {
       this.currentNum = this.list.length - 1;
     }
   },
-  updateCurrentNumberDots(number) {
-    this.currentNum = number;
+  updateCurrentNumberDots(index) {
+    this.currentNum = index;
   },
 };
 
