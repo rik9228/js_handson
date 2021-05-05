@@ -45,7 +45,7 @@ const request = async () => {
 const fetchData = async () => {
   let res;
   try {
-    await timeout(3000);
+    await timeout(1000);
     res = await request();
   } catch (error) {
     res = [];
@@ -91,17 +91,10 @@ const autoPlay = () => {
      * 扱いが難しかったので断念しました。ご了承ください。
      */
     const beforeNum = slides.currentNum;
-    slides.currentNum++;
-
-    // 最後の画像の時
-    if (slides.currentNum === slides.list.length) {
-      slides.currentNum = 0;
-      navNum.textContent = `${slides.currentNum + 1}/${slides.length}`;
-    }
-
+    slides.updateCurrentNumber(1);
     changeImage(beforeNum, slides, navDots);
     autoPlay();
-  }, 3000);
+  }, 1000);
 };
 
 const createSlideDots = (slide, index) => {
