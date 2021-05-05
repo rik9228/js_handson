@@ -30,6 +30,9 @@ const slides = {
       this.currentNum = this.list.length - 1;
     }
   },
+  updateCurrentNumberDots(number) {
+    this.currentNum = number;
+  },
 };
 
 const timeout = (ms) => {
@@ -108,7 +111,7 @@ const createSlideDots = (slide, index) => {
 
   li.addEventListener("click", () => {
     const beforeNum = slides.currentNum;
-    slides.currentNum = index;
+    slides.updateCurrentNumberDots(index);
     changeImage(beforeNum, slides, navDots);
     clearTimeout(timeOutId);
     autoPlay();
