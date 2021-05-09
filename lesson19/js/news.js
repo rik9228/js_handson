@@ -9,6 +9,33 @@
   let lists;
   let primaryImageWrapper;
 
+  const request = async () => {
+    const resource = await fetch(resourceUrl);
+    let json = await resource.json();
+    return json;
+  };
+
+  const fetchData = async () => {
+    let res;
+    try {
+      res = await request();
+    } catch (error) {
+      res = [];
+    } finally {
+      return res;
+    }
+  };
+
+  const init = async () => {
+    initCreateDOM();
+    const datas = await fetchData();
+    if (datas.length === 0) {
+      lists.textContent = "コンテンツがありません";
+      return;
+    }
+    createContentView(datas);
+  };
+
   const initCreateDOM = () => {
     primaryElement = document.createElement("div");
     primaryElement.classList.add("news__wrapper");
@@ -19,6 +46,19 @@
     primaryElement.appendChild(lists);
     primaryElement.appendChild(primaryImageWrapper);
     newsBlock.appendChild(primaryElement);
+  };
+
+  init();
+
+  const createContentView = (datas) => {
+    const contents = datas.data;
+    contents.forEach((content, index) => {
+      createTabsView(content, index);
+      if (content.isOpen) {
+        createArticleView(content);
+        createImageView(content);
+      }
+    });
   };
 
   const createTabsView = (content, index) => {
@@ -50,6 +90,23 @@
         createImageView(content);
       }
     });
+  };
+
+  const createArticleView = (content) => {
+    content.articles.forEach((article) => {
+      const li = createLiContent(article);
+
+      if (article.isNew) {
+        addNewForLi(li);
+      }
+
+      if (article.commentCount) {
+        addCommentForLi(article, li);
+      }
+
+      fragment.appendChild(li);
+    });
+    lists.appendChild(fragment);
   };
 
   const createImageView = (content) => {
@@ -90,61 +147,4 @@
     comment.insertAdjacentHTML("beforeend", article.commentCount);
     li.appendChild(comment);
   };
-
-  const createArticleView = (content) => {
-    content.articles.forEach((article) => {
-      const li = createLiContent(article);
-
-      if (article.isNew) {
-        addNewForLi(li);
-      }
-
-      if (article.commentCount) {
-        addCommentForLi(article, li);
-      }
-
-      fragment.appendChild(li);
-    });
-    lists.appendChild(fragment);
-  };
-
-  const createContentView = (datas) => {
-    const contents = datas.data;
-    contents.forEach((content, index) => {
-      createTabsView(content, index);
-      if (content.isOpen) {
-        createArticleView(content);
-        createImageView(content);
-      }
-    });
-  };
-
-  const request = async () => {
-    const resource = await fetch(resourceUrl);
-    let json = await resource.json();
-    return json;
-  };
-
-  const fetchData = async () => {
-    let res;
-    try {
-      res = await request();
-    } catch (error) {
-      res = [];
-    } finally {
-      return res;
-    }
-  };
-
-  const init = async () => {
-    initCreateDOM();
-    const datas = await fetchData();
-    if (datas.length === 0) {
-      lists.textContent = "コンテンツがありません";
-      return;
-    }
-    createContentView(datas);
-  };
-
-  init();
 }
