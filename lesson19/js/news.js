@@ -5,9 +5,8 @@
   const newsBlock = document.getElementById("js-news");
   const tabs = document.getElementById("js-tabs");
   const fragment = document.createDocumentFragment();
-  let primaryElement;
-  let lists;
-  let primaryImageWrapper;
+  let articleLists;
+  let imageWrapper;
 
   const request = async () => {
     const resource = await fetch(resourceUrl);
@@ -30,21 +29,21 @@
     initCreateDOM();
     const datas = await fetchData();
     if (datas.length === 0) {
-      lists.textContent = "コンテンツがありません";
+      articleLists.textContent = "コンテンツがありません";
       return;
     }
     createContentView(datas);
   };
 
   const initCreateDOM = () => {
-    primaryElement = document.createElement("div");
+    const primaryElement = document.createElement("div");
     primaryElement.classList.add("news__wrapper");
-    lists = document.createElement("ul");
-    lists.classList.add("news__listFrame--second");
-    primaryImageWrapper = document.createElement("div");
-    primaryImageWrapper.classList.add("news__partition");
-    primaryElement.appendChild(lists);
-    primaryElement.appendChild(primaryImageWrapper);
+    articleLists = document.createElement("ul");
+    articleLists.classList.add("news__listFrame--second");
+    imageWrapper = document.createElement("div");
+    imageWrapper.classList.add("news__partition");
+    primaryElement.appendChild(articleLists);
+    primaryElement.appendChild(imageWrapper);
     newsBlock.appendChild(primaryElement);
   };
 
@@ -74,8 +73,8 @@
     tabs.appendChild(tab);
 
     tab.addEventListener("click", () => {
-      while (lists.firstChild) {
-        lists.removeChild(lists.firstChild);
+      while (articleLists.firstChild) {
+        articleLists.removeChild(articleLists.firstChild);
       }
 
       const tabsChildren = tabs.children;
@@ -85,7 +84,7 @@
 
       tab.classList.add("selected");
 
-      if (content.id === Number(tab.dataset.id)) {
+      if (content.id === parseInt(tab.dataset.id)) {
         createArticleView(content);
         createImageView(content);
       }
@@ -97,7 +96,7 @@
       const li = createLiContent(article);
 
       if (article.isNew) {
-        addNewForLi(li);
+        addNewIconForLi(li);
       }
 
       if (article.commentCount) {
@@ -106,18 +105,18 @@
 
       fragment.appendChild(li);
     });
-    lists.appendChild(fragment);
+    articleLists.appendChild(fragment);
   };
 
   const createImageView = (content) => {
-    while (primaryImageWrapper.firstChild) {
-      primaryImageWrapper.removeChild(primaryImageWrapper.firstChild);
+    while (imageWrapper.firstChild) {
+      imageWrapper.removeChild(imageWrapper.firstChild);
     }
 
-    const primaryImage = document.createElement("img");
-    primaryImage.setAttribute("src", content.src);
-    primaryImage.classList.add("news__image");
-    primaryImageWrapper.appendChild(primaryImage);
+    const topicImage = document.createElement("img");
+    topicImage.setAttribute("src", content.src);
+    topicImage.classList.add("news__image");
+    imageWrapper.appendChild(topicImage);
   };
 
   const createLiContent = (article) => {
@@ -130,7 +129,7 @@
     return li;
   };
 
-  const addNewForLi = (li) => {
+  const addNewIconForLi = (li) => {
     const newIcon = document.createElement("span");
     newIcon.classList.add("news__label");
     newIcon.textContent = "NEW";
