@@ -2,7 +2,7 @@
 
 {
   const resourceUrl = "https://jsondata.okiba.me/v1/json/C58qe210426143842";
-  const wrapper = document.getElementById("js-wrapper");
+  const slideAndListWrapper = document.getElementById("js-wrapper");
   const slideList = document.getElementById("js-slideList");
   const prevButton = document.getElementById("js-prev");
   const nextButton = document.getElementById("js-next");
@@ -76,7 +76,7 @@
       li.classList.add("active");
     }
 
-    wrapper.classList.add("show");
+    slideAndListWrapper.classList.add("show");
     fragmentSlide.appendChild(li);
   };
 
@@ -123,7 +123,7 @@
     navNum.textContent = `${slides.currentNum + 1}/${slides.list.length}`;
   };
 
-  const changePrevNextState = (currentNum) => {
+  const changeStateArrows = (currentNum) => {
     if (currentNum === slides.list.length - 1) {
       nextButton.disabled = true;
     } else if (currentNum === 0) {
@@ -148,7 +148,7 @@
     navDots.children[beforeNum].classList.remove("current");
     navDots.children[currentNum].classList.add("current");
 
-    changePrevNextState(currentNum);
+    changeStateArrows(currentNum);
   };
 
   prevButton.addEventListener("click", () => {
