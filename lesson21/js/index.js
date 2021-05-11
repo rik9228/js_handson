@@ -1,9 +1,10 @@
 "use strict";
 
 const tableWrapper = document.getElementById("js-wrapper");
+let currentNum = 0;
 
 const request = async () => {
-  const resourceUrl = "https://jsondata.okiba.me/v1/json/jXk4S210511010142";
+  const resourceUrl = "https://jsondata.okiba.me/v1/json/t2T2M210511130923";
   const resource = await fetch(resourceUrl);
   let json = await resource.json();
   return json;
@@ -26,15 +27,20 @@ const init = async () => {
     tableWrapper.textContent = "コンテンツがありません";
     return;
   }
+
   createTableShow(datas);
+
+  const sortButton = document.getElementById("js-sortButton");
+  sortButton.addEventListener("click", () => {
+    sortId(datas);
+  });
 };
 
 init();
 
 const createTableShow = (datas) => {
-  const users = [...datas.data];
-  console.log(users);
   let savedTableParts = "";
+  const users = [...datas.data];
   const table = document.createElement("table");
 
   savedTableParts += createTableHeadContents();
@@ -48,7 +54,12 @@ const createTableHeadContents = () => {
   let tableHeadContent = `<thead>`;
   tableHeadContent += `
   <tr>
-  <th>ID</th>
+  <th>
+  ID
+  <span class="sortButton" id="js-sortButton">
+  <img id="js-buttonImage" src="img/both.svg">
+  </span>
+  </th>
   <th>名前</th>
   <th>性別</th>
   <th>年齢</th>
@@ -70,4 +81,39 @@ const createTableBodyContents = (users) => {
     `;
   });
   return (tableBodyContent += `</tbody>`);
+};
+
+const sortId = (datas) => {
+  let users = [...datas.data];
+  const tbody = document.querySelector("tbody");
+  const sortButtonImage = document.getElementById("js-buttonImage");
+
+  currentNum++;
+  if (currentNum === 3) {
+    currentNum = 0;
+  }
+
+  switch (currentNum) {
+    case 0:
+      users = [...datas.data];
+      tbody.innerHTML = createTableBodyContents(users);
+      sortButtonImage.setAttribute("src", "img/both.svg");
+      break;
+
+    case 1:
+      users.sort(function (a, b) {
+        return a.id - b.id;
+      });
+      tbody.innerHTML = createTableBodyContents(users);
+      sortButtonImage.setAttribute("src", "img/asc.svg");
+      break;
+
+    case 2:
+      users.sort(function (a, b) {
+        return b.id - a.id;
+      });
+      tbody.innerHTML = createTableBodyContents(users);
+      sortButtonImage.setAttribute("src", "img/desc.svg");
+      break;
+  }
 };
