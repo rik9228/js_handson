@@ -21,8 +21,17 @@ th,
 tr {
   border: 1px solid #000;
   padding: 1em 4em;
+  position: relative;
 }
 
 thead {
   background: #ead3d1;
+}
+
+.sortButton {
+  position: absolute;
+  top: 53%;
+  right: 48px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
