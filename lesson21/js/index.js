@@ -2,6 +2,8 @@
 
 const tableWrapper = document.getElementById("js-wrapper");
 let currentNum = 0;
+let tbody;
+let sortButtonImage;
 
 const request = async () => {
   const resourceUrl = "https://jsondata.okiba.me/v1/json/t2T2M210511130923";
@@ -85,6 +87,8 @@ const createTableBodyContents = (users) => {
 
 const sortDataById = (datas) => {
   let users = [...datas.data];
+  tbody = document.querySelector("tbody");
+  sortButtonImage = document.getElementById("js-buttonImage");
 
   currentNum++;
   if (currentNum === 3) {
@@ -114,8 +118,6 @@ const sortDataById = (datas) => {
 };
 
 const changeTableBody = (users, imgPath) => {
-  const tbody = document.querySelector("tbody");
-  const sortButtonImage = document.getElementById("js-buttonImage");
   tbody.innerHTML = createTableBodyContents(users);
   sortButtonImage.setAttribute("src", imgPath);
 };
