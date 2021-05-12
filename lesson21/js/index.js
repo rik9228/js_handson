@@ -32,7 +32,7 @@ const init = async () => {
 
   const sortButton = document.getElementById("js-sortButton");
   sortButton.addEventListener("click", () => {
-    sortId(datas);
+    sortDataById(datas);
   });
 };
 
@@ -83,10 +83,8 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
-const sortId = (datas) => {
+const sortDataById = (datas) => {
   let users = [...datas.data];
-  const tbody = document.querySelector("tbody");
-  const sortButtonImage = document.getElementById("js-buttonImage");
 
   currentNum++;
   if (currentNum === 3) {
@@ -96,24 +94,28 @@ const sortId = (datas) => {
   switch (currentNum) {
     case 0:
       users = [...datas.data];
-      tbody.innerHTML = createTableBodyContents(users);
-      sortButtonImage.setAttribute("src", "img/both.svg");
+      changeTableBody(users, "img/both.svg");
       break;
 
     case 1:
       users.sort(function (a, b) {
         return a.id - b.id;
       });
-      tbody.innerHTML = createTableBodyContents(users);
-      sortButtonImage.setAttribute("src", "img/asc.svg");
+      changeTableBody(users, "img/asc.svg");
       break;
 
     case 2:
       users.sort(function (a, b) {
         return b.id - a.id;
       });
-      tbody.innerHTML = createTableBodyContents(users);
-      sortButtonImage.setAttribute("src", "img/desc.svg");
+      changeTableBody(users, "img/desc.svg");
       break;
   }
+};
+
+const changeTableBody = (users, imgPath) => {
+  const tbody = document.querySelector("tbody");
+  const sortButtonImage = document.getElementById("js-buttonImage");
+  tbody.innerHTML = createTableBodyContents(users);
+  sortButtonImage.setAttribute("src", imgPath);
 };
