@@ -120,26 +120,26 @@ const sortTable = (datas) => {
   switch (orderState) {
     case "BOTH":
       users = [...datas.data];
-      changeTableBody(users, "img/both.svg");
+      changeTableView(users, "img/both.svg");
       break;
 
     case "ASC":
       users.sort(function (a, b) {
         return a.id - b.id;
       });
-      changeTableBody(users, "img/asc.svg");
+      changeTableView(users, "img/asc.svg");
       break;
 
     case "DESC":
       users.sort(function (a, b) {
         return b.id - a.id;
       });
-      changeTableBody(users, "img/desc.svg");
+      changeTableView(users, "img/desc.svg");
       break;
   }
 };
 
-const changeTableBody = (users, imgPath) => {
+const changeTableView = (users, imgPath) => {
   tbody.innerHTML = createTableBodyContents(users);
   sortArrow.setAttribute("src", imgPath);
 };
