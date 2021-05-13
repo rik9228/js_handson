@@ -28,9 +28,9 @@ thead {
   background: #ead3d1;
 }
 
-.sortButton {
+.sortArrow {
   position: absolute;
-  top: 53%;
+  top: 50%;
   right: 48px;
   transform: translateY(-50%);
   cursor: pointer;
