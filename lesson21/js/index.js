@@ -51,6 +51,10 @@ const createTableShow = (datas) => {
   table.innerHTML = savedTableParts;
 
   tableWrapper.appendChild(table);
+
+  // DOMが生成されて初めて参照が可能になる。
+  tbody = document.querySelector("tbody");
+  sortArrow = document.getElementById("js-sortArrow");
 };
 
 const readyClickHandler = (datas) => {
@@ -72,7 +76,7 @@ const createTableHeadContents = () => {
   <th>
   ID
   <span class="sortButton" id="js-sortButton">
-  <img id="js-buttonImage" src="img/both.svg">
+    <img id="js-sortArrow" src="img/both.svg">
   </span>
   </th>
   <th>名前</th>
@@ -114,8 +118,6 @@ const changeOrderState = () => {
 
 const sortTable = (datas) => {
   let users = [...datas.data];
-  tbody = document.querySelector("tbody");
-  sortArrow = document.getElementById("js-buttonImage");
 
   switch (orderState) {
     case "BOTH":
