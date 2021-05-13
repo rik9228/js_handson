@@ -1,9 +1,14 @@
 "use strict";
 
 const tableWrapper = document.getElementById("js-wrapper");
-let currentNum = 0;
-let tbody;
-let sortButtonImage;
+const userTableData = {
+  orderState: "BOTH",
+  currentNum: 0,
+  tbody: "",
+  sortArrow: "",
+};
+
+let { orderState, currentNum, tbody, sortArrow } = userTableData;
 
 const request = async () => {
   const resourceUrl = "https://jsondata.okiba.me/v1/json/t2T2M210511130923";
@@ -30,6 +35,7 @@ const init = async () => {
     return;
   }
 
+  changeOrderState();
   createTableShow(datas);
 
   const sortButton = document.getElementById("js-sortButton");
@@ -85,10 +91,24 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
+const changeOrderState = () => {
+  switch (currentNum) {
+    case 0:
+      orderState = "BOTH";
+      break;
+    case 1:
+      orderState = "ASC";
+      break;
+    case 2:
+      orderState = "DESC";
+      break;
+  }
+};
+
 const sortDataById = (datas) => {
   let users = [...datas.data];
   tbody = document.querySelector("tbody");
-  sortButtonImage = document.getElementById("js-buttonImage");
+  sortArrow = document.getElementById("js-buttonImage");
 
   currentNum++;
   if (currentNum === 3) {
@@ -119,5 +139,5 @@ const sortDataById = (datas) => {
 
 const changeTableBody = (users, imgPath) => {
   tbody.innerHTML = createTableBodyContents(users);
-  sortButtonImage.setAttribute("src", imgPath);
+  sortArrow.setAttribute("src", imgPath);
 };
