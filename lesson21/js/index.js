@@ -140,5 +140,5 @@ const sortTable = (datas) => {
 
 const changeTableView = (users, imgPath) => {
   tbody.innerHTML = createTableBodyContents(users);
-  sortArrow.setAttribute("src", imgPath);
+  sortArrow.src = imgPath;
 };
