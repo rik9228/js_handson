@@ -58,8 +58,7 @@ const createTableShow = (datas) => {
 };
 
 const readyClickHandler = (datas) => {
-  const sortButton = document.getElementById("js-sortButton");
-  sortButton.addEventListener("click", () => {
+  sortArrow.addEventListener("click", () => {
     currentNum++;
     if (currentNum === 3) {
       currentNum = 0;
@@ -75,9 +74,7 @@ const createTableHeadContents = () => {
   <tr>
   <th>
   ID
-  <span class="sortButton" id="js-sortButton">
-    <img id="js-sortArrow" src="img/both.svg">
-  </span>
+    <img class="sortArrow" id="js-sortArrow" src="img/both.svg">
   </th>
   <th>名前</th>
   <th>性別</th>
