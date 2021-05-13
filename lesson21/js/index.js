@@ -35,11 +35,15 @@ const init = async () => {
     return;
   }
 
-  changeOrderState();
   createTableShow(datas);
 
   const sortButton = document.getElementById("js-sortButton");
   sortButton.addEventListener("click", () => {
+    currentNum++;
+    if (currentNum === 3) {
+      currentNum = 0;
+    }
+    changeOrderState();
     sortDataById(datas);
   });
 };
@@ -110,25 +114,20 @@ const sortDataById = (datas) => {
   tbody = document.querySelector("tbody");
   sortArrow = document.getElementById("js-buttonImage");
 
-  currentNum++;
-  if (currentNum === 3) {
-    currentNum = 0;
-  }
-
-  switch (currentNum) {
-    case 0:
+  switch (orderState) {
+    case "BOTH":
       users = [...datas.data];
       changeTableBody(users, "img/both.svg");
       break;
 
-    case 1:
+    case "ASC":
       users.sort(function (a, b) {
         return a.id - b.id;
       });
       changeTableBody(users, "img/asc.svg");
       break;
 
-    case 2:
+    case "DESC":
       users.sort(function (a, b) {
         return b.id - a.id;
       });
