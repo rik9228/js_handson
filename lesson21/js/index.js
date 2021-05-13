@@ -36,16 +36,7 @@ const init = async () => {
   }
 
   createTableShow(datas);
-
-  const sortButton = document.getElementById("js-sortButton");
-  sortButton.addEventListener("click", () => {
-    currentNum++;
-    if (currentNum === 3) {
-      currentNum = 0;
-    }
-    changeOrderState();
-    sortDataById(datas);
-  });
+  readyClickHandler(datas);
 };
 
 init();
@@ -60,6 +51,18 @@ const createTableShow = (datas) => {
   table.innerHTML = savedTableParts;
 
   tableWrapper.appendChild(table);
+};
+
+const readyClickHandler = (datas) => {
+  const sortButton = document.getElementById("js-sortButton");
+  sortButton.addEventListener("click", () => {
+    currentNum++;
+    if (currentNum === 3) {
+      currentNum = 0;
+    }
+    changeOrderState();
+    sortTable(datas);
+  });
 };
 
 const createTableHeadContents = () => {
@@ -109,7 +112,7 @@ const changeOrderState = () => {
   }
 };
 
-const sortDataById = (datas) => {
+const sortTable = (datas) => {
   let users = [...datas.data];
   tbody = document.querySelector("tbody");
   sortArrow = document.getElementById("js-buttonImage");
