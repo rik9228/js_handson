@@ -1,14 +1,12 @@
 "use strict";
 
 const tableWrapper = document.getElementById("js-wrapper");
-const userTableData = {
+const userTableState = {
   orderState: "BOTH",
   currentNum: 0,
   tbody: "",
   sortArrow: "",
 };
-
-let { orderState, currentNum, tbody, sortArrow } = userTableData;
 
 const request = async () => {
   const resourceUrl = "https://jsondata.okiba.me/v1/json/t2T2M210511130923";
@@ -53,15 +51,15 @@ const createTableShow = (datas) => {
   tableWrapper.appendChild(table);
 
   // DOMが生成されて初めて参照が可能になる。
-  tbody = document.querySelector("tbody");
-  sortArrow = document.getElementById("js-sortArrow");
+  userTableState.tbody = document.querySelector("tbody");
+  userTableState.sortArrow = document.getElementById("js-sortArrow");
 };
 
 const readyClickHandler = (datas) => {
-  sortArrow.addEventListener("click", () => {
-    currentNum++;
-    if (currentNum === 3) {
-      currentNum = 0;
+  userTableState.sortArrow.addEventListener("click", () => {
+    userTableState.currentNum++;
+    if (userTableState.currentNum === 3) {
+      userTableState.currentNum = 0;
     }
     changeOrderState();
     sortTable(datas);
@@ -100,15 +98,15 @@ const createTableBodyContents = (users) => {
 };
 
 const changeOrderState = () => {
-  switch (currentNum) {
+  switch (userTableState.currentNum) {
     case 0:
-      orderState = "BOTH";
+      userTableState.orderState = "BOTH";
       break;
     case 1:
-      orderState = "ASC";
+      userTableState.orderState = "ASC";
       break;
     case 2:
-      orderState = "DESC";
+      userTableState.orderState = "DESC";
       break;
   }
 };
@@ -116,7 +114,7 @@ const changeOrderState = () => {
 const sortTable = (datas) => {
   let users = [...datas.data];
 
-  switch (orderState) {
+  switch (userTableState.orderState) {
     case "BOTH":
       users = [...datas.data];
       changeTableView(users, "img/both.svg");
@@ -139,6 +137,6 @@ const sortTable = (datas) => {
 };
 
 const changeTableView = (users, imgPath) => {
-  tbody.innerHTML = createTableBodyContents(users);
-  sortArrow.src = imgPath;
+  userTableState.tbody.innerHTML = createTableBodyContents(users);
+  userTableState.sortArrow.src = imgPath;
 };
