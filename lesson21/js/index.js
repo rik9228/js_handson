@@ -102,21 +102,25 @@ const sortTable = (datas) => {
       break;
 
     case "ASC":
-      users.sort(function (a, b) {
-        return a.id - b.id;
-      });
+      sortAscByColumnValue(users, "id");
       changeTableView(users, "img/asc.svg");
       userTableState.orderState = "DESC";
       break;
 
     case "DESC":
-      users.sort(function (a, b) {
-        return b.id - a.id;
-      });
+      sortDescByColumnValue(users, "id");
       changeTableView(users, "img/desc.svg");
       userTableState.orderState = "BOTH";
       break;
   }
+};
+
+const sortAscByColumnValue = (users, key) => {
+  users.sort((a, b) => (a[key] < b[key] ? -1 : 1));
+};
+
+const sortDescByColumnValue = (users, key) => {
+  users.sort((a, b) => (a[key] > b[key] ? -1 : 1));
 };
 
 const changeTableView = (users, imgPath) => {
