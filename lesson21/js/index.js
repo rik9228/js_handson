@@ -49,7 +49,6 @@ const createTableShow = (datas) => {
 
   tableWrapper.appendChild(table);
 
-  // DOMが生成されて初めて参照が可能になる。
   userTableState.tbody = document.querySelector("tbody");
   userTableState.sortButton = document.getElementById("js-sortArrow");
 };
