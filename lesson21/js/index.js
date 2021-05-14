@@ -2,10 +2,9 @@
 
 const tableWrapper = document.getElementById("js-wrapper");
 const userTableState = {
-  orderState: "BOTH",
-  currentNum: 0,
+  orderState: "ASC",
   tbody: "",
-  sortArrow: "",
+  sortButton: "",
 };
 
 const request = async () => {
@@ -34,7 +33,7 @@ const init = async () => {
   }
 
   createTableShow(datas);
-  readyClickHandler(datas);
+  attachClickEventForSortBtn(datas);
 };
 
 init();
@@ -52,16 +51,11 @@ const createTableShow = (datas) => {
 
   // DOMが生成されて初めて参照が可能になる。
   userTableState.tbody = document.querySelector("tbody");
-  userTableState.sortArrow = document.getElementById("js-sortArrow");
+  userTableState.sortButton = document.getElementById("js-sortArrow");
 };
 
-const readyClickHandler = (datas) => {
-  userTableState.sortArrow.addEventListener("click", () => {
-    userTableState.currentNum++;
-    if (userTableState.currentNum === 3) {
-      userTableState.currentNum = 0;
-    }
-    changeOrderState();
+const attachClickEventForSortBtn = (datas) => {
+  userTableState.sortButton.addEventListener("click", () => {
     sortTable(datas);
   });
 };
@@ -97,20 +91,6 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
-const changeOrderState = () => {
-  switch (userTableState.currentNum) {
-    case 0:
-      userTableState.orderState = "BOTH";
-      break;
-    case 1:
-      userTableState.orderState = "ASC";
-      break;
-    case 2:
-      userTableState.orderState = "DESC";
-      break;
-  }
-};
-
 const sortTable = (datas) => {
   let users = [...datas.data];
 
@@ -118,6 +98,7 @@ const sortTable = (datas) => {
     case "BOTH":
       users = [...datas.data];
       changeTableView(users, "img/both.svg");
+      userTableState.orderState = "ASC";
       break;
 
     case "ASC":
@@ -125,6 +106,7 @@ const sortTable = (datas) => {
         return a.id - b.id;
       });
       changeTableView(users, "img/asc.svg");
+      userTableState.orderState = "DESC";
       break;
 
     case "DESC":
@@ -132,11 +114,12 @@ const sortTable = (datas) => {
         return b.id - a.id;
       });
       changeTableView(users, "img/desc.svg");
+      userTableState.orderState = "BOTH";
       break;
   }
 };
 
 const changeTableView = (users, imgPath) => {
   userTableState.tbody.innerHTML = createTableBodyContents(users);
-  userTableState.sortArrow.src = imgPath;
+  userTableState.sortButton.src = imgPath;
 };
