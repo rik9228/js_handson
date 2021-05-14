@@ -55,8 +55,9 @@ const createTableShow = (datas) => {
 };
 
 const attachClickEventForSortBtn = (datas) => {
-  userTableState.sortButton.addEventListener("click", () => {
-    sortTable(datas);
+  userTableState.sortButton.addEventListener("click", (e) => {
+    const tableColumnId = e.target.parentNode.id;
+    sortTable(datas, tableColumnId);
   });
 };
 
@@ -64,13 +65,13 @@ const createTableHeadContents = () => {
   let tableHeadContent = `<thead>`;
   tableHeadContent += `
   <tr>
-  <th>
+  <th id="id">
   ID
     <img class="sortArrow" id="js-sortArrow" src="img/both.svg">
   </th>
-  <th>名前</th>
-  <th>性別</th>
-  <th>年齢</th>
+  <th id="name">名前</th>
+  <th id="gender">性別</th>
+  <th id="age">年齢</th>
   </tr>
   `;
   return (tableHeadContent += `</thead>`);
@@ -91,24 +92,23 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
-const sortTable = (datas) => {
+const sortTable = (datas, tableColumnId) => {
   let users = [...datas.data];
 
   switch (userTableState.orderState) {
     case "BOTH":
       userTableState.orderState = "ASC";
-      sortAscByColumnValue(users, "id");
+      sortAscByColumnValue(users, tableColumnId);
       changeTableView(users, "img/asc.svg");
       break;
 
     case "ASC":
       userTableState.orderState = "DESC";
-      sortDescByColumnValue(users, "id");
+      sortDescByColumnValue(users, tableColumnId);
       changeTableView(users, "img/desc.svg");
       break;
 
     case "DESC":
-      users = [...datas.data];
       userTableState.orderState = "BOTH";
       changeTableView(users, "img/both.svg");
       break;
