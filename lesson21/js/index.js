@@ -2,7 +2,7 @@
 
 const tableWrapper = document.getElementById("js-wrapper");
 const userTableState = {
-  orderState: "ASC",
+  orderState: "BOTH",
   tbody: "",
   sortButton: "",
 };
@@ -96,21 +96,21 @@ const sortTable = (datas) => {
 
   switch (userTableState.orderState) {
     case "BOTH":
-      users = [...datas.data];
-      changeTableView(users, "img/both.svg");
       userTableState.orderState = "ASC";
+      sortAscByColumnValue(users, "id");
+      changeTableView(users, "img/asc.svg");
       break;
 
     case "ASC":
-      sortAscByColumnValue(users, "id");
-      changeTableView(users, "img/asc.svg");
       userTableState.orderState = "DESC";
+      sortDescByColumnValue(users, "id");
+      changeTableView(users, "img/desc.svg");
       break;
 
     case "DESC":
-      sortDescByColumnValue(users, "id");
-      changeTableView(users, "img/desc.svg");
+      users = [...datas.data];
       userTableState.orderState = "BOTH";
+      changeTableView(users, "img/both.svg");
       break;
   }
 };
