@@ -92,19 +92,19 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
-const sortTable = (datas, tableColumnId) => {
+const sortTable = (datas, key) => {
   let users = [...datas.data];
 
   switch (userTableState.orderState) {
     case "BOTH":
       userTableState.orderState = "ASC";
-      sortAscByColumnValue(users, tableColumnId);
+      sortAscByColumnValue(users, key);
       changeTableView(users, "img/asc.svg");
       break;
 
     case "ASC":
       userTableState.orderState = "DESC";
-      sortDescByColumnValue(users, tableColumnId);
+      sortDescByColumnValue(users, key);
       changeTableView(users, "img/desc.svg");
       break;
 
