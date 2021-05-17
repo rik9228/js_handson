@@ -9,14 +9,9 @@ const request = async () => {
   return json;
 };
 
-const timeout = (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
 const fetchData = async () => {
   let res;
   try {
-    await timeout(3000);
     res = await request();
   } catch (error) {
     res = [];
@@ -37,7 +32,7 @@ const init = async () => {
 init();
 
 const createTableShow = (datas) => {
-  const users = datas.data;
+  const users = [...datas.data];
   let savedTableParts = "";
   const table = document.createElement("table");
 
