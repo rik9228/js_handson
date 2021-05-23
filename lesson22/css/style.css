@@ -18,10 +18,15 @@ table {
 }
 
 th,
+td,
 tr {
   border: 1px solid #000;
   padding: 1em 4em;
   position: relative;
+}
+
+td {
+  text-align: center;
 }
 
 thead {
