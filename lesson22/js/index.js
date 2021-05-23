@@ -2,9 +2,18 @@
 
 const tableWrapper = document.getElementById("js-wrapper");
 const userTableState = {
-  orderState: "BOTH",
+  orderState: {
+    id: "BOTH",
+    age: "BOTH",
+  },
   tbody: "",
-  sortButton: "",
+  sortButtons: "",
+};
+
+const arrowImageSources = {
+  BOTH: "img/both.svg",
+  ASC: "img/asc.svg",
+  DESC: "img/desc.svg",
 };
 
 const request = async () => {
@@ -50,13 +59,15 @@ const createTableShow = (datas) => {
   tableWrapper.appendChild(table);
 
   userTableState.tbody = document.querySelector("tbody");
-  userTableState.sortButton = document.getElementById("js-sortArrow");
+  userTableState.sortButtons = document.querySelectorAll(".sortArrow");
 };
 
 const attachClickEventForSortBtn = (datas) => {
-  userTableState.sortButton.addEventListener("click", (e) => {
-    const tableColumnId = e.target.parentNode.id;
-    sortTable(datas, tableColumnId);
+  userTableState.sortButtons.forEach((sortButton) => {
+    sortButton.addEventListener("click", () => {
+      const tableColumnId = sortButton.parentNode.id;
+      sortTable(datas, tableColumnId);
+    });
   });
 };
 
@@ -64,15 +75,15 @@ const createTableHeadContents = () => {
   let tableHeadContent = `<thead>`;
   tableHeadContent += `
   <tr>
-  <th id="id">
-  ID
-    <img class="sortArrow" id="js-sortArrow" src="img/both.svg">
+  <th id="id">ID
+    <img class="sortArrow" src="img/both.svg">
   </th>
   <th id="name">名前</th>
   <th id="gender">性別</th>
-  <th id="age">年齢</th>
-  </tr>
-  `;
+  <th id="age">年齢
+    <img class="sortArrow" src="img/both.svg">
+  </th>
+  </tr>`;
   return (tableHeadContent += `</thead>`);
 };
 
@@ -81,10 +92,10 @@ const createTableBodyContents = (users) => {
   users.forEach((user) => {
     tableBodyContent += `
     <tr>
-    <th>${user.id}</th>
-    <th>${user.name}</th>
-    <th>${user.gender}</th>
-    <th>${user.age}</th>
+    <td>${user.id}</td>
+    <td>${user.name}</td>
+    <td>${user.gender}</td>
+    <td>${user.age}</td>
     </tr>
     `;
   });
@@ -93,23 +104,22 @@ const createTableBodyContents = (users) => {
 
 const sortTable = (datas, key) => {
   let users = [...datas.data];
-
-  switch (userTableState.orderState) {
+  switch (userTableState.orderState[key]) {
     case "BOTH":
-      userTableState.orderState = "ASC";
+      changeTableHeaderShow("ASC", key);
       sortAscByColumnValue(users, key);
-      changeTableView(users, "img/asc.svg");
+      changeTableBodyShow(users);
       break;
 
     case "ASC":
-      userTableState.orderState = "DESC";
+      changeTableHeaderShow("DESC", key);
       sortDescByColumnValue(users, key);
-      changeTableView(users, "img/desc.svg");
+      changeTableBodyShow(users);
       break;
 
     case "DESC":
-      userTableState.orderState = "BOTH";
-      changeTableView(users, "img/both.svg");
+      changeTableHeaderShow("BOTH", key);
+      changeTableBodyShow(users);
       break;
   }
 };
@@ -122,7 +132,24 @@ const sortDescByColumnValue = (users, key) => {
   users.sort((a, b) => (a[key] > b[key] ? -1 : 1));
 };
 
-const changeTableView = (users, imgPath) => {
+const changeTableHeaderShow = (sortType, key) => {
+  resetState(); // 状態の初期化処理
+  userTableState.sortButtons.forEach((sortButton) => {
+    sortButton.src = arrowImageSources["BOTH"]; // ボタン画像の初期化処理
+    if (sortButton.parentNode.id === key) {
+      userTableState.orderState[key] = sortType;
+      sortButton.src = arrowImageSources[sortType];
+    }
+  });
+};
+
+const changeTableBodyShow = (users) => {
   userTableState.tbody.innerHTML = createTableBodyContents(users);
-  userTableState.sortButton.src = imgPath;
+};
+
+// userTableState にある orderState を全て'BOTH'にする関数
+const resetState = () => {
+  for (let state in userTableState.orderState) {
+    userTableState.orderState[state] = "BOTH";
+  }
 };
