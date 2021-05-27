@@ -6,8 +6,6 @@ const userTableState = {
     id: "BOTH",
     age: "BOTH",
   },
-  tbody: "",
-  sortButtons: "",
 };
 
 const arrowImageSources = {
@@ -66,7 +64,10 @@ const attachClickEventForSortBtn = (datas, sortButtons, tbody) => {
   sortButtons.forEach((sortButton) => {
     sortButton.addEventListener("click", () => {
       const tableColumnId = sortButton.parentNode.id;
-      sortTable(datas, tableColumnId, sortButtons, tbody);
+      changeTableStateToNext(userTableState.orderState[tableColumnId]);
+      changeTableHeaderShow(changeTableStateToNext(userTableState.orderState[tableColumnId]), tableColumnId, sortButton);
+      sortTable(datas, tableColumnId);
+      changeTableBodyShow(sortTable(datas, tableColumnId), tbody);
     });
   });
 };
@@ -102,53 +103,62 @@ const createTableBodyContents = (users) => {
   return (tableBodyContent += `</tbody>`);
 };
 
-const sortTable = (datas, key, sortButtons, tbody) => {
-  let users = [...datas.data];
-  switch (userTableState.orderState[key]) {
+const changeTableStateToNext = (currentTableState) => {
+  switch (currentTableState) {
     case "BOTH":
-      changeTableHeaderShow("ASC", key, sortButtons);
-      sortAscByColumnValue(users, key);
+      currentTableState = "ASC";
       break;
-
     case "ASC":
-      changeTableHeaderShow("DESC", key, sortButtons);
-      sortDescByColumnValue(users, key);
+      currentTableState = "DESC";
       break;
-
     case "DESC":
-      changeTableHeaderShow("BOTH", key, sortButtons);
+      currentTableState = "BOTH";
       break;
 
     default:
       break;
   }
-  changeTableBodyShow(users, tbody);
+  return currentTableState;
+};
+
+const sortTable = (datas, key) => {
+  let users = [...datas.data];
+  switch (userTableState.orderState[key]) {
+    case "BOTH":
+      return users;
+
+    case "ASC":
+      return sortAscByColumnValue(users, key);
+
+    case "DESC":
+      return sortDescByColumnValue(users, key);
+
+    default:
+      break;
+  }
 };
 
 const sortAscByColumnValue = (users, key) => {
-  users.sort((a, b) => (a[key] < b[key] ? -1 : 1));
+  return users.sort((a, b) => (a[key] < b[key] ? -1 : 1));
 };
 
 const sortDescByColumnValue = (users, key) => {
-  users.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+  return users.sort((a, b) => (a[key] > b[key] ? -1 : 1));
 };
 
-const changeTableHeaderShow = (sortType, key, sortButtons) => {
-  resetState(); // 状態の初期化処理
-  sortButtons.forEach((sortButton) => {
-    sortButton.src = arrowImageSources["BOTH"]; // ボタン画像の初期化処理
-    if (sortButton.parentNode.id === key) {
-      userTableState.orderState[key] = sortType;
-      sortButton.src = arrowImageSources[sortType];
-    }
-  });
+const changeTableHeaderShow = (sortType, key, sortButton) => {
+  resetState();
+  sortButton.src = arrowImageSources["BOTH"];
+  if (sortButton.parentNode.id === key) {
+    userTableState.orderState[key] = sortType;
+    sortButton.src = arrowImageSources[sortType];
+  }
 };
 
 const changeTableBodyShow = (users, tbody) => {
   tbody.innerHTML = createTableBodyContents(users);
 };
 
-// userTableState にある orderState を全て'BOTH'にする関数
 const resetState = () => {
   for (let state in userTableState.orderState) {
     userTableState.orderState[state] = "BOTH";
