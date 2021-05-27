@@ -121,6 +121,9 @@ const sortTable = (datas, key) => {
       changeTableHeaderShow("BOTH", key);
       changeTableBodyShow(users);
       break;
+
+    default:
+      break;
   }
 };
 
