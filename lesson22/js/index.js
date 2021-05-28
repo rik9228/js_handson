@@ -73,7 +73,7 @@ const attachClickEventForSortBtn = (datas, sortButtons, tbody) => {
 };
 
 const createTableHeadContents = () => {
-  let tableHeadContent = `
+  return  `
   <thead>
   <tr>
   <th id="id">ID
@@ -87,7 +87,6 @@ const createTableHeadContents = () => {
   </tr>
   </thead>
   `;
-  return tableHeadContent;
 };
 
 const createTableBodyContents = (users) => {
