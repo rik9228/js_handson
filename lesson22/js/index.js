@@ -64,8 +64,9 @@ const attachClickEventForSortBtn = (datas, sortButtons, tbody) => {
   sortButtons.forEach((sortButton) => {
     sortButton.addEventListener("click", () => {
       const tableColumnId = sortButton.parentNode.id;
-      changeTableStateToNext(userTableState.orderState[tableColumnId]);
-      changeTableHeaderShow(changeTableStateToNext(userTableState.orderState[tableColumnId]), tableColumnId, sortButton);
+      const nextOrder = changeTableStateToNext(userTableState.orderState[tableColumnId]);
+
+      changeTableHeaderShow(nextOrder, tableColumnId, sortButtons);
       sortTable(datas, tableColumnId);
       changeTableBodyShow(sortTable(datas, tableColumnId), tbody);
     });
@@ -73,7 +74,7 @@ const attachClickEventForSortBtn = (datas, sortButtons, tbody) => {
 };
 
 const createTableHeadContents = () => {
-  return  `
+  return `
   <thead>
   <tr>
   <th id="id">ID
@@ -147,13 +148,15 @@ const sortDescByColumnValue = (users, key) => {
   return users.sort((a, b) => (a[key] > b[key] ? -1 : 1));
 };
 
-const changeTableHeaderShow = (sortType, key, sortButton) => {
+const changeTableHeaderShow = (sortType, key, sortButtons) => {
   resetState();
-  sortButton.src = arrowImageSources["BOTH"];
-  if (sortButton.parentNode.id === key) {
-    userTableState.orderState[key] = sortType;
-    sortButton.src = arrowImageSources[sortType];
-  }
+  sortButtons.forEach((sortButton) => {
+    sortButton.src = arrowImageSources["BOTH"];
+    if (sortButton.parentNode.id === key) {
+      userTableState.orderState[key] = sortType;
+      sortButton.src = arrowImageSources[sortType];
+    }
+  });
 };
 
 const changeTableBodyShow = (users, tbody) => {
