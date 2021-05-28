@@ -1,11 +1,13 @@
 "use strict";
 
 const tableWrapper = document.getElementById("js-wrapper");
+const initialOrderState = {
+  id: "BOTH",
+  age: "BOTH",
+};
+
 const userTableState = {
-  orderState: {
-    id: "BOTH",
-    age: "BOTH",
-  },
+  orderState: initialOrderState,
 };
 
 const arrowImageSources = {
