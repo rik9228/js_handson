@@ -169,5 +169,5 @@ const changeTableBodyShow = (users, tbody) => {
 };
 
 const resetState = () => {
-  return (userTableState.orderState = initialOrderState);
+  return (userTableState.orderState = { ...initialOrderState });
 };
