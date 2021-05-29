@@ -93,18 +93,21 @@ const createTableHeadContents = () => {
 };
 
 const createTableBodyContents = (users) => {
-  let tableBodyContent = `<tbody>`;
-  users.forEach((user) => {
-    tableBodyContent += `
-    <tr>
-    <td>${user.id}</td>
-    <td>${user.name}</td>
-    <td>${user.gender}</td>
-    <td>${user.age}</td>
-    </tr>
-    `;
-  });
-  return (tableBodyContent += `</tbody>`);
+  return users.reduce((acc, current, index, arr) => {
+    const temp = `<tr>
+    <td>${current.id}</td>
+    <td>${current.name}</td>
+    <td>${current.gender}</td>
+    <td>${current.age}</td>
+    </tr>`;
+
+    const result = `${acc}${temp}`;
+
+    if (index === arr.length - 1) {
+      return `${result}</tbody>`;
+    }
+    return result;
+  }, `<tbody>`);
 };
 
 const changeTableStateToNext = (currentTableState) => {
