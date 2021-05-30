@@ -158,7 +158,10 @@ const changeTableHeaderShow = (sortType, key, sortButtons) => {
   sortButtons.forEach((sortButton) => {
     sortButton.src = arrowImageSources["BOTH"];
     if (sortButton.parentNode.id === key) {
-      userTableState.orderState[key] = sortType;
+      userTableState.orderState = {
+        ...userTableState.orderState,
+        [key]: sortType,
+      };
       sortButton.src = arrowImageSources[sortType];
     }
   });
@@ -169,5 +172,5 @@ const changeTableBodyShow = (users, tbody) => {
 };
 
 const resetState = () => {
-  return (userTableState.orderState = { ...initialOrderState });
+  userTableState.orderState = initialOrderState;
 };
