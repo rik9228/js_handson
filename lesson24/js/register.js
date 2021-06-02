@@ -23,6 +23,4 @@ modalWrapper.addEventListener("scroll", (e) => {
   }
 });
 
-form.addEventListener("submit", (e) => {
-  checkbox.checked ? null : e.preventDefault();
-});
+form.addEventListener("submit", (e) => (checkbox.checked ? null : e.preventDefault()));
