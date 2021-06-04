@@ -18,7 +18,7 @@ closeButton.addEventListener("click", () => {
 });
 
 modalWrapper.addEventListener("scroll", (e) => {
-  if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
+  if (scrollHeight - (clientHeight + e.target.scrollTop) < 1) {
     checkbox.checked = true;
   }
 });
