@@ -12,10 +12,18 @@ const modalState = {
   scrollHeight: 0,
 };
 
-term.addEventListener("click", () => {
-  modal.classList.add("show");
+const updateModalState = () => {
   modalState.clientHeight = modalWrapper.clientHeight;
   modalState.scrollHeight = modalWrapper.scrollHeight;
+};
+
+term.addEventListener("click", () => {
+  modal.classList.add("show");
+  updateModalState();
+});
+
+window.addEventListener("resize", () => {
+  updateModalState();
 });
 
 closeButton.addEventListener("click", () => {
