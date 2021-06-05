@@ -6,8 +6,6 @@ const form = document.getElementById("js-form");
 const modal = document.getElementById("js-modal");
 const checkbox = document.getElementById("js-checkbox");
 const modalWrapper = document.getElementById("js-modalWrapper");
-const clientHeight = modalWrapper.clientHeight;
-const scrollHeight = modalWrapper.scrollHeight;
 
 term.addEventListener("click", () => {
   modal.classList.add("show");
@@ -18,7 +16,9 @@ closeButton.addEventListener("click", () => {
 });
 
 modalWrapper.addEventListener("scroll", (e) => {
-  if (scrollHeight - (clientHeight + e.target.scrollTop) < 1) {
+  const clientHeight = modalWrapper.clientHeight;
+  const scrollHeight = modalWrapper.scrollHeight;
+  if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.checked = true;
   }
 });
