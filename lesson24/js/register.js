@@ -6,32 +6,24 @@ const form = document.getElementById("js-form");
 const modal = document.getElementById("js-modal");
 const checkbox = document.getElementById("js-checkbox");
 const modalWrapper = document.getElementById("js-modalWrapper");
-
-const modalState = {
-  clientHeight: 0,
-  scrollHeight: 0,
-};
-
-const updateModalState = () => {
-  modalState.clientHeight = modalWrapper.clientHeight;
-  modalState.scrollHeight = modalWrapper.scrollHeight;
-};
+let clientHeight = modalWrapper.clientHeight;
+let scrollHeight = modalWrapper.scrollHeight;
 
 term.addEventListener("click", () => {
   modal.classList.add("show");
-  updateModalState();
 });
 
-window.addEventListener("resize", () => {
-  updateModalState();
-});
+window.onresize = () => {
+  clientHeight = modalWrapper.clientHeight;
+  scrollHeight = modalWrapper.scrollHeight;
+};
 
 closeButton.addEventListener("click", () => {
   modal.classList.remove("show");
 });
 
 modalWrapper.addEventListener("scroll", (e) => {
-  if (modalState.scrollHeight - (modalState.clientHeight + e.target.scrollTop) === 0) {
+  if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.checked = true;
   }
 });
