@@ -1,8 +1,59 @@
 "use strict";
 
+const fragment = document.createDocumentFragment("fragment");
+const initCreateErrorElement = () => {
+  for (let i = 0; i < 3; i++) {
+    const errorMessage = document.createElement("p");
+    setErrorMessageId(errorMessage, i);
+    errorMessage.classList.add("errorMessage");
+    fragment.appendChild(errorMessage);
+  }
+};
+
+const setErrorMessageId = (element, index) => {
+  switch (index) {
+    case 0:
+      element.id = "js-userNameError";
+      break;
+
+    case 1:
+      element.id = "js-emailError";
+      break;
+
+    case 2:
+      element.id = "js-passwordError";
+      break;
+
+    default:
+      break;
+  }
+};
+
+// エラーメッセージDOMの生成
+initCreateErrorElement();
+
+
+
+let validFlags = {
+  userName: false,
+  email: false,
+  password: false,
+};
+const submit = document.getElementById("js-submit");
+const changeDisabledSubmit = () => {
+  if (Object.values(validFlags).includes(false)) {
+    checkbox.disabled = true;
+    submit.disabled = true;
+  } else {
+    submit.disabled = false;
+    checkbox.disabled = false;
+  }
+};
+
 const modalWrapper = document.getElementById("js-modalWrapper");
 let clientHeight = modalWrapper.clientHeight;
 let scrollHeight = modalWrapper.scrollHeight;
+
 window.onresize = () => {
   clientHeight = modalWrapper.clientHeight;
   scrollHeight = modalWrapper.scrollHeight;
@@ -22,43 +73,31 @@ closeButton.addEventListener("click", () => {
   modal.classList.remove("show");
 });
 
-const submit = document.getElementById("js-submit");
-const changeDisabledCheckSubmit = () => {
-  if (Object.values(validFlags).includes(false)) {
-    checkbox.disabled = true;
-    submit.disabled = true;
-  } else {
-    checkbox.disabled = false;
-    submit.disabled = false;
-  }
-};
 
+const userNameForm = document.getElementById("js-userName");
+const userNameFormParent = userNameForm.parentNode;
+const userErrorMessage = fragment.getElementById("js-userNameError");
+userNameFormParent.insertBefore(userErrorMessage, userNameForm.nextSibling);
 
-let validFlags = {
-  userName: false,
-  email: false,
-  password: false,
-};
-const userName = document.getElementById("js-userName");
-const userErrorMessage = document.getElementById("js-userErrorMessage");
-
-userName.addEventListener("input", (e) => {
+userNameForm.addEventListener("input", (e) => {
   const inputValue = Array.from(e.target.value);
   if (inputValue.length > 15) {
     validFlags.userName = false;
-    userErrorMessage.classList.add("show");
+    userErrorMessage.textContent = "ユーザー名は15文字以下にしてください。";
   } else {
     validFlags.userName = true;
-    userErrorMessage.classList.remove("show");
+    userErrorMessage.textContent = "";
   }
-  changeDisabledCheckSubmit();
+  changeDisabledSubmit();
 });
 
 
-const email = document.getElementById("js-email");
-const emailErrorMessage = document.getElementById("js-emailErrorMessage");
+const emailForm = document.getElementById("js-email");
+const emailFormParent = emailForm.parentNode;
+const emailErrorMessage = fragment.getElementById("js-emailError");
+emailFormParent.insertBefore(emailErrorMessage, emailForm.nextSibling);
 
-email.addEventListener("input", (e) => {
+emailForm.addEventListener("input", (e) => {
   /**
    * NOTE：
    * ^[A-Za-z0-9]{1}：先頭の1文字をアルファベット小文字/大文字/数字で許可
@@ -72,19 +111,21 @@ email.addEventListener("input", (e) => {
 
   if (emailRegex.test(inputValue)) {
     validFlags.email = true;
-    emailErrorMessage.classList.remove("show");
+    emailErrorMessage.textContent = "";
   } else {
     validFlags.email = false;
-    emailErrorMessage.classList.add("show");
+    emailErrorMessage.textContent = "メールアドレスの形式になっていません。";
   }
-  changeDisabledCheckSubmit();
+  changeDisabledSubmit();
 });
 
 
-const password = document.getElementById("js-password");
-const passwordErrorMessage = document.getElementById("js-passwordErrorMessage");
+const passwordForm = document.getElementById("js-password");
+const passwordFormParent = passwordForm.parentNode;
+const passwordErrorMessage = fragment.getElementById("js-passwordError");
+passwordFormParent.insertBefore(passwordErrorMessage, passwordForm.nextSibling);
 
-password.addEventListener("input", (e) => {
+passwordForm.addEventListener("input", (e) => {
   /**
    * NOTE：
    * ”0～9のいずれかを含む”かつ
@@ -97,12 +138,12 @@ password.addEventListener("input", (e) => {
 
   if (passwordRegex.test(inputValue)) {
     validFlags.password = true;
-    passwordErrorMessage.classList.remove("show");
+    passwordErrorMessage.textContent = "";
   } else {
     validFlags.password = false;
-    passwordErrorMessage.classList.add("show");
+    passwordErrorMessage.textContent = "8文字以上の大小の英数字を交ぜたものにしてください。";
   }
-  changeDisabledCheckSubmit();
+  changeDisabledSubmit();
 });
 
 
@@ -111,6 +152,7 @@ modalWrapper.addEventListener("scroll", (e) => {
   if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.disabled = false;
     checkbox.checked = true;
+    changeDisabledSubmit();
   }
 });
 
