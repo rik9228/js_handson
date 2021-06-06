@@ -1,45 +1,64 @@
 "use strict";
 
-const fragment = document.createDocumentFragment("fragment");
-const initCreateErrorElement = () => {
+const modal = document.getElementById("js-modal");
+const modalWrapper = document.getElementById("js-modalWrapper");
+const checkbox = document.getElementById("js-checkbox");
+const closeButton = document.getElementById("js-close");
+
+const form = document.getElementById("js-form");
+const term = document.getElementById("js-term");
+const submit = document.getElementById("js-submit");
+const userNameForm = document.getElementById("js-userName");
+const emailForm = document.getElementById("js-email");
+const passwordForm = document.getElementById("js-password");
+
+
+const insertErrorMessageElement = (id, element, formElement) => {
+  element.id = id;
+  const formParentElement = formElement.parentNode;
+  formParentElement.insertBefore(element, formElement.nextSibling);
+};
+
+const initErrorMessageElementShow = ({ userName, email, password }) => {
   for (let i = 0; i < 3; i++) {
-    const errorMessage = document.createElement("p");
-    setErrorMessageId(errorMessage, i);
-    errorMessage.classList.add("errorMessage");
-    fragment.appendChild(errorMessage);
+    const errorElement = document.createElement("p");
+    errorElement.classList.add("errorMessage");
+
+    switch (i) {
+      case 0:
+        insertErrorMessageElement(userName, errorElement, userNameForm);
+        break;
+
+      case 1:
+        insertErrorMessageElement(email, errorElement, emailForm);
+        break;
+
+      case 2:
+        insertErrorMessageElement(password, errorElement, passwordForm);
+        break;
+
+      default:
+        break;
+    }
   }
 };
 
-const setErrorMessageId = (element, index) => {
-  switch (index) {
-    case 0:
-      element.id = "js-userNameError";
-      break;
-
-    case 1:
-      element.id = "js-emailError";
-      break;
-
-    case 2:
-      element.id = "js-passwordError";
-      break;
-
-    default:
-      break;
-  }
+// 生成するエラーメッセージ要素(<p>)のidをここで指定。
+const errorMessageElementIds = {
+  userName: "js-userNameError",
+  email: "js-emailError",
+  password: "js-passwordError",
 };
 
 // エラーメッセージDOMの生成
-initCreateErrorElement();
-
-
+initErrorMessageElementShow(errorMessageElementIds);
 
 let validFlags = {
   userName: false,
   email: false,
   password: false,
 };
-const submit = document.getElementById("js-submit");
+
 const changeDisabledSubmit = () => {
   if (Object.values(validFlags).includes(false)) {
     checkbox.disabled = true;
@@ -50,7 +69,6 @@ const changeDisabledSubmit = () => {
   }
 };
 
-const modalWrapper = document.getElementById("js-modalWrapper");
 let clientHeight = modalWrapper.clientHeight;
 let scrollHeight = modalWrapper.scrollHeight;
 
@@ -59,45 +77,29 @@ window.onresize = () => {
   scrollHeight = modalWrapper.scrollHeight;
 };
 
-
-const modal = document.getElementById("js-modal");
-const term = document.getElementById("js-term");
-
 term.addEventListener("click", () => {
   modal.classList.add("show");
 });
 
-
-const closeButton = document.getElementById("js-close");
 closeButton.addEventListener("click", () => {
   modal.classList.remove("show");
 });
 
-
-const userNameForm = document.getElementById("js-userName");
-const userNameFormParent = userNameForm.parentNode;
-const userErrorMessage = fragment.getElementById("js-userNameError");
-userNameFormParent.insertBefore(userErrorMessage, userNameForm.nextSibling);
-
-userNameForm.addEventListener("input", (e) => {
+userNameForm.addEventListener("blur", (e) => {
+  const userNameErrorMessage = document.getElementById("js-userNameError");
   const inputValue = Array.from(e.target.value);
   if (inputValue.length > 15) {
     validFlags.userName = false;
-    userErrorMessage.textContent = "ユーザー名は15文字以下にしてください。";
+    userNameErrorMessage.textContent = "ユーザー名は15文字以下にしてください。";
   } else {
     validFlags.userName = true;
-    userErrorMessage.textContent = "";
+    userNameErrorMessage.textContent = "";
   }
   changeDisabledSubmit();
 });
 
-
-const emailForm = document.getElementById("js-email");
-const emailFormParent = emailForm.parentNode;
-const emailErrorMessage = fragment.getElementById("js-emailError");
-emailFormParent.insertBefore(emailErrorMessage, emailForm.nextSibling);
-
-emailForm.addEventListener("input", (e) => {
+emailForm.addEventListener("blur", (e) => {
+  const emailErrorMessage = document.getElementById("js-emailError");
   /**
    * NOTE：
    * ^[A-Za-z0-9]{1}：先頭の1文字をアルファベット小文字/大文字/数字で許可
@@ -119,13 +121,8 @@ emailForm.addEventListener("input", (e) => {
   changeDisabledSubmit();
 });
 
-
-const passwordForm = document.getElementById("js-password");
-const passwordFormParent = passwordForm.parentNode;
-const passwordErrorMessage = fragment.getElementById("js-passwordError");
-passwordFormParent.insertBefore(passwordErrorMessage, passwordForm.nextSibling);
-
-passwordForm.addEventListener("input", (e) => {
+passwordForm.addEventListener("blur", (e) => {
+  const passwordErrorMessage = document.getElementById("js-passwordError");
   /**
    * NOTE：
    * ”0～9のいずれかを含む”かつ
@@ -146,8 +143,6 @@ passwordForm.addEventListener("input", (e) => {
   changeDisabledSubmit();
 });
 
-
-const checkbox = document.getElementById("js-checkbox");
 modalWrapper.addEventListener("scroll", (e) => {
   if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.disabled = false;
@@ -156,6 +151,4 @@ modalWrapper.addEventListener("scroll", (e) => {
   }
 });
 
-
-const form = document.getElementById("js-form");
 form.addEventListener("submit", (e) => (checkbox.checked ? null : e.preventDefault()));
