@@ -6,12 +6,13 @@ const form = document.getElementById("js-form");
 const modal = document.getElementById("js-modal");
 const checkbox = document.getElementById("js-checkbox");
 const modalWrapper = document.getElementById("js-modalWrapper");
-let clientHeight = modalWrapper.clientHeight;
-let scrollHeight = modalWrapper.scrollHeight;
 
 term.addEventListener("click", () => {
   modal.classList.add("show");
 });
+
+let clientHeight = modalWrapper.clientHeight;
+let scrollHeight = modalWrapper.scrollHeight;
 
 window.onresize = () => {
   clientHeight = modalWrapper.clientHeight;
