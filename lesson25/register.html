@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <link rel="stylesheet" href="css/style.css" />
     <title>Lesson25</title>
   </head>
@@ -11,25 +11,16 @@
       <h1 class="title">会員登録</h1>
       <form method="POST" class="form" id="js-form" action="register-done.html">
         <div class="box">
-          <div class="partition">
-            <label class="label" for="js-userName">※ユーザー名</label>
-            <input class="input-form" type="text" id="js-userName" />
-          </div>
-          <p class="errorMessage" id="js-userErrorMessage">ユーザー名は15文字以下にしてください。</p>
+          <label class="label" for="js-userName">※ユーザー名</label>
+          <input class="input-form" type="text" id="js-userName" name="userName"/>
         </div>
         <div class="box">
-          <div class="partition">
-            <label class="label" for="js-email">※メールアドレス</label>
-            <input class="input-form" type="text" id="js-email" />
-          </div>
-          <p class="errorMessage" id="js-emailErrorMessage">メールアドレスの形式になっていません。</p>
+          <label class="label" for="js-email">※メールアドレス</label>
+          <input class="input-form" type="text" id="js-email" name="email"/>
         </div>
         <div class="box">
-          <div class="partition">
-            <label class="label" for="js-password">※パスワード</label>
-            <input class="input-form" type="password" id="js-password" />
-          </div>
-          <p class="errorMessage" id="js-passwordErrorMessage">8文字以上の大小の英数字を交ぜたものにしてください。</p>
+          <label class="label" for="js-password">※パスワード</label>
+          <input class="input-form" type="password" id="js-password" name="password"/>
         </div>
 
         <div class="box--02">
