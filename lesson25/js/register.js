@@ -19,38 +19,37 @@ const insertErrorMessageElement = (id, element, formElement) => {
 };
 
 const initErrorMessageElementShow = ({ userName, email, password }) => {
-  for (let i = 0; i < Object.keys(errorMessageElementIds).length; i++) {
+  Object.values(errorMessageElementIdNames).forEach((errorMessageElementIdName) => {
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
-
-    switch (i) {
-      case 0:
+    switch (errorMessageElementIdName) {
+      case userName:
         insertErrorMessageElement(userName, errorElement, userNameForm);
         break;
 
-      case 1:
+      case email:
         insertErrorMessageElement(email, errorElement, emailForm);
         break;
 
-      case 2:
+      case password:
         insertErrorMessageElement(password, errorElement, passwordForm);
         break;
 
       default:
         break;
     }
-  }
+  });
 };
 
 // 生成するエラーメッセージ要素(<p>)のidをここで指定。
-const errorMessageElementIds = {
+const errorMessageElementIdNames = {
   userName: "js-userNameError",
   email: "js-emailError",
   password: "js-passwordError",
 };
 
-// 初期化処理：エラーメッセージDOMの生成
-initErrorMessageElementShow(errorMessageElementIds);
+// 初期化処理：エラーメッセージDOMの生成（初期はテキストは空にしておく）
+initErrorMessageElementShow(errorMessageElementIdNames);
 
 let validFlags = {
   userName: false,
@@ -70,7 +69,7 @@ const changeDisabledSubmit = () => {
 
 // バリデーション条件
 let validateTerms = {
-  maxUserNameCount: 15,
+  userNameMaxCount: 15,
   emailRegex: new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/),
   passwordRegex: new RegExp(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/),
   /**
@@ -97,40 +96,40 @@ const errorMessages = {
 };
 
 userNameForm.addEventListener("blur", (e) => {
-  const userNameErrorMessage = document.getElementById(errorMessageElementIds.userName);
-  const inputValue = Array.from(e.target.value);
-  if (inputValue.length > validateTerms.maxUserNameCount) {
-    validFlags.userName = false;
-    userNameErrorMessage.textContent = errorMessages.userName;
-  } else {
+  const userNameErrorElement = document.getElementById(errorMessageElementIdNames.userName);
+  const inputValue = [...e.target.value];
+  if (inputValue.length < validateTerms.userNameMaxCount) {
     validFlags.userName = true;
-    userNameErrorMessage.textContent = "";
+    userNameErrorElement.textContent = "";
+  } else {
+    validFlags.userName = false;
+    userNameErrorElement.textContent = errorMessages.userName;
   }
   changeDisabledSubmit();
 });
 
 emailForm.addEventListener("blur", (e) => {
-  const emailErrorMessage = document.getElementById(errorMessageElementIds.email);
+  const emailErrorElement = document.getElementById(errorMessageElementIdNames.email);
   const inputValue = e.target.value;
   if (validateTerms.emailRegex.test(inputValue)) {
     validFlags.email = true;
-    emailErrorMessage.textContent = "";
+    emailErrorElement.textContent = "";
   } else {
     validFlags.email = false;
-    emailErrorMessage.textContent = errorMessages.email;
+    emailErrorElement.textContent = errorMessages.email;
   }
   changeDisabledSubmit();
 });
 
 passwordForm.addEventListener("blur", (e) => {
-  const passwordErrorMessage = document.getElementById(errorMessageElementIds.password);
+  const passwordErrorElement = document.getElementById(errorMessageElementIdNames.password);
   const inputValue = e.target.value;
   if (validateTerms.passwordRegex.test(inputValue)) {
     validFlags.password = true;
-    passwordErrorMessage.textContent = "";
+    passwordErrorElement.textContent = "";
   } else {
     validFlags.password = false;
-    passwordErrorMessage.textContent = errorMessages.password;
+    passwordErrorElement.textContent = errorMessages.password;
   }
   changeDisabledSubmit();
 });
@@ -159,4 +158,9 @@ closeButton.addEventListener("click", () => {
   modal.classList.remove("show");
 });
 
-form.addEventListener("submit", (e) => (checkbox.checked ? null : e.preventDefault()));
+form.addEventListener("submit", (e) => {
+  if (checkbox.checked) {
+    e.preventDefault();
+    location.href = "./register-done.html";
+  }
+});
