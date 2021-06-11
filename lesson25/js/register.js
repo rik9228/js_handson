@@ -50,11 +50,15 @@ const errorMessageElementIdNames = {
 
 // 初期化処理：エラーメッセージDOMの生成（初期はテキストは空にしておく）
 initErrorMessageElementShow(errorMessageElementIdNames);
+const userNameErrorElement = document.getElementById(errorMessageElementIdNames.userName);
+const emailErrorElement = document.getElementById(errorMessageElementIdNames.email);
+const passwordErrorElement = document.getElementById(errorMessageElementIdNames.password);
 
 let validFlags = {
   userName: false,
   email: false,
   password: false,
+  useTerm: false,
 };
 
 const changeDisabledSubmit = () => {
@@ -72,21 +76,6 @@ let validateTerms = {
   userNameMaxCount: 15,
   emailRegex: new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/),
   passwordRegex: new RegExp(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/),
-  /**
-   * NOTE：
-   * ・emailRegex
-   * ^[A-Za-z0-9]{1}：先頭の1文字をアルファベット小文字/大文字/数字で許可
-   * [A-Za-z0-9_.-]*：先頭より2文字目以降"@"までをアルファベット小文字/大文字/数字/アンダースコア/ピリオド/ハイフン、0文字以上を許可
-   * "@"：連続してはいけない
-   * @以降からトップレベルドメインまで:アルファベット小文字/大文字/数字/アンダースコア/ピリオド/ハイフンを許可、1文字以上
-   * トップレベルドメイン:アルファベット小文字/大文字/数字、1文字以上を許可
-   *
-   * ・passwordRegex
-   * ”0～9のいずれかを含む”かつ
-   * ”a～zのいずれかを含む”かつ
-   * ”A～Zのいずれかを含む”、
-   * 0～9、a～z、A～Z、ハイフンのいずれかで構成された8文字以上の文字列を許可
-   */
 };
 
 const errorMessages = {
@@ -96,7 +85,6 @@ const errorMessages = {
 };
 
 userNameForm.addEventListener("blur", (e) => {
-  const userNameErrorElement = document.getElementById(errorMessageElementIdNames.userName);
   const inputValue = [...e.target.value];
   if (inputValue.length < validateTerms.userNameMaxCount) {
     validFlags.userName = true;
@@ -109,7 +97,6 @@ userNameForm.addEventListener("blur", (e) => {
 });
 
 emailForm.addEventListener("blur", (e) => {
-  const emailErrorElement = document.getElementById(errorMessageElementIdNames.email);
   const inputValue = e.target.value;
   if (validateTerms.emailRegex.test(inputValue)) {
     validFlags.email = true;
@@ -122,7 +109,6 @@ emailForm.addEventListener("blur", (e) => {
 });
 
 passwordForm.addEventListener("blur", (e) => {
-  const passwordErrorElement = document.getElementById(errorMessageElementIdNames.password);
   const inputValue = e.target.value;
   if (validateTerms.passwordRegex.test(inputValue)) {
     validFlags.password = true;
@@ -138,6 +124,7 @@ modalWrapper.addEventListener("scroll", (e) => {
   if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.disabled = false;
     checkbox.checked = true;
+    validFlags.useTerm = true;
     changeDisabledSubmit();
   }
 });
@@ -156,6 +143,15 @@ term.addEventListener("click", () => {
 
 closeButton.addEventListener("click", () => {
   modal.classList.remove("show");
+});
+
+checkbox.addEventListener("click", () => {
+  if (checkbox.checked) {
+    validFlags.useTerm = true;
+  } else {
+    validFlags.useTerm = false;
+  }
+  changeDisabledSubmit();
 });
 
 form.addEventListener("submit", (e) => {
