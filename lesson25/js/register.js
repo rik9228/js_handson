@@ -84,39 +84,44 @@ const errorMessages = {
   password: "8文字以上の大小の英数字を交ぜたものにしてください。",
 };
 
-userNameForm.addEventListener("blur", (e) => {
-  const inputValue = [...e.target.value];
-  if (inputValue.length <= validateTerms.userNameMaxCount) {
-    validFlags.userName = true;
-    userNameErrorElement.textContent = "";
-  } else {
-    validFlags.userName = false;
-    userNameErrorElement.textContent = errorMessages.userName;
+const isValid = (key) => {
+  switch (key) {
+    case "userName":
+      return form[key].value.length <= validateTerms.userNameMaxCount;
+
+    case "email":
+      return validateTerms.emailRegex.test(form[key].value);
+
+    case "password":
+      return validateTerms.passwordRegex.test(form[key].value);
+
+    default:
+      return;
   }
+};
+
+const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
+  if (isValid(key)) {
+    validFlags[key] = true;
+    errorMessage.textContent = "";
+  } else {
+    validFlags.key = false;
+    errorMessage.textContent = errorMessages[key];
+  }
+};
+
+userNameForm.addEventListener("blur", (e) => {
+  validFlagsAndErrorMessageHandler("userName", userNameErrorElement);
   changeDisabledSubmitBtn();
 });
 
 emailForm.addEventListener("blur", (e) => {
-  const inputValue = e.target.value;
-  if (validateTerms.emailRegex.test(inputValue)) {
-    validFlags.email = true;
-    emailErrorElement.textContent = "";
-  } else {
-    validFlags.email = false;
-    emailErrorElement.textContent = errorMessages.email;
-  }
+  validFlagsAndErrorMessageHandler("email", emailErrorElement);
   changeDisabledSubmitBtn();
 });
 
 passwordForm.addEventListener("blur", (e) => {
-  const inputValue = e.target.value;
-  if (validateTerms.passwordRegex.test(inputValue)) {
-    validFlags.password = true;
-    passwordErrorElement.textContent = "";
-  } else {
-    validFlags.password = false;
-    passwordErrorElement.textContent = errorMessages.password;
-  }
+  validFlagsAndErrorMessageHandler("password", passwordErrorElement);
   changeDisabledSubmitBtn();
 });
 
