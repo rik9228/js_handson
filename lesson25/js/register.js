@@ -12,27 +12,27 @@ const userNameForm = document.getElementById("js-userName");
 const emailForm = document.getElementById("js-email");
 const passwordForm = document.getElementById("js-password");
 
-const insertErrorMessageElement = (id, element, formElement) => {
+const setErrorMessageElement = (id, element, formElement) => {
   element.id = id;
   const formParentElement = formElement.parentNode;
-  formParentElement.insertBefore(element, formElement.nextSibling);
+  formParentElement.appendChild(element);
 };
 
-const initErrorMessageElementShow = ({ userName, email, password }) => {
-  Object.values(errorMessageElementIdNames).forEach((errorMessageElementIdName) => {
+const initErrorMessageCreate = ({ userName, email, password }) => {
+  Object.values(errorMessageIdNames).forEach((errorMessageIdName) => {
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
-    switch (errorMessageElementIdName) {
+    switch (errorMessageIdName) {
       case userName:
-        insertErrorMessageElement(userName, errorElement, userNameForm);
+        setErrorMessageElement(userName, errorElement, userNameForm);
         break;
 
       case email:
-        insertErrorMessageElement(email, errorElement, emailForm);
+        setErrorMessageElement(email, errorElement, emailForm);
         break;
 
       case password:
-        insertErrorMessageElement(password, errorElement, passwordForm);
+        setErrorMessageElement(password, errorElement, passwordForm);
         break;
 
       default:
@@ -42,17 +42,17 @@ const initErrorMessageElementShow = ({ userName, email, password }) => {
 };
 
 // 生成するエラーメッセージ要素(<p>)のidをここで指定。
-const errorMessageElementIdNames = {
+const errorMessageIdNames = {
   userName: "js-userNameError",
   email: "js-emailError",
   password: "js-passwordError",
 };
 
 // 初期化処理：エラーメッセージDOMの生成（初期はテキストは空にしておく）
-initErrorMessageElementShow(errorMessageElementIdNames);
-const userNameErrorElement = document.getElementById(errorMessageElementIdNames.userName);
-const emailErrorElement = document.getElementById(errorMessageElementIdNames.email);
-const passwordErrorElement = document.getElementById(errorMessageElementIdNames.password);
+initErrorMessageCreate(errorMessageIdNames);
+const userNameErrorElement = document.getElementById(errorMessageIdNames.userName);
+const emailErrorElement = document.getElementById(errorMessageIdNames.email);
+const passwordErrorElement = document.getElementById(errorMessageIdNames.password);
 
 let validFlags = {
   userName: false,
@@ -61,7 +61,7 @@ let validFlags = {
   useTerm: false,
 };
 
-const changeDisabledSubmit = () => {
+const changeDisabledSubmitBtn = () => {
   if (Object.values(validFlags).includes(false)) {
     submit.disabled = true;
     checkbox.disabled = true;
@@ -86,14 +86,14 @@ const errorMessages = {
 
 userNameForm.addEventListener("blur", (e) => {
   const inputValue = [...e.target.value];
-  if (inputValue.length < validateTerms.userNameMaxCount) {
+  if (inputValue.length <= validateTerms.userNameMaxCount) {
     validFlags.userName = true;
     userNameErrorElement.textContent = "";
   } else {
     validFlags.userName = false;
     userNameErrorElement.textContent = errorMessages.userName;
   }
-  changeDisabledSubmit();
+  changeDisabledSubmitBtn();
 });
 
 emailForm.addEventListener("blur", (e) => {
@@ -105,7 +105,7 @@ emailForm.addEventListener("blur", (e) => {
     validFlags.email = false;
     emailErrorElement.textContent = errorMessages.email;
   }
-  changeDisabledSubmit();
+  changeDisabledSubmitBtn();
 });
 
 passwordForm.addEventListener("blur", (e) => {
@@ -117,7 +117,7 @@ passwordForm.addEventListener("blur", (e) => {
     validFlags.password = false;
     passwordErrorElement.textContent = errorMessages.password;
   }
-  changeDisabledSubmit();
+  changeDisabledSubmitBtn();
 });
 
 modalWrapper.addEventListener("scroll", (e) => {
@@ -125,7 +125,7 @@ modalWrapper.addEventListener("scroll", (e) => {
     checkbox.disabled = false;
     checkbox.checked = true;
     validFlags.useTerm = true;
-    changeDisabledSubmit();
+    changeDisabledSubmitBtn();
   }
 });
 
@@ -151,7 +151,7 @@ checkbox.addEventListener("click", () => {
   } else {
     validFlags.useTerm = false;
   }
-  changeDisabledSubmit();
+  changeDisabledSubmitBtn();
 });
 
 form.addEventListener("submit", (e) => {
