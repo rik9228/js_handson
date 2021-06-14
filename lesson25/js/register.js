@@ -8,36 +8,20 @@ const closeButton = document.getElementById("js-close");
 const form = document.getElementById("js-form");
 const term = document.getElementById("js-term");
 const submit = document.getElementById("js-submit");
-const userNameForm = document.getElementById("js-userName");
-const emailForm = document.getElementById("js-email");
-const passwordForm = document.getElementById("js-password");
 
-const setErrorMessageElement = (id, element, formElement) => {
-  element.id = id;
+const setErrorMessageElement = (id, errorElement, formElement) => {
+  errorElement.id = `js-${id}Error`;
   const formParentElement = formElement.parentNode;
-  formParentElement.appendChild(element);
+  formParentElement.appendChild(errorElement);
 };
 
-const initErrorMessageCreate = ({ userName, email, password }) => {
-  Object.values(errorMessageIdNames).forEach((errorMessageIdName) => {
+const initErrorMessageCreate = (errorMessageIdNames) => {
+  Object.keys(errorMessageIdNames).forEach((key) => {
+    const formElement = document.getElementById(`js-${key}`);
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
-    switch (errorMessageIdName) {
-      case userName:
-        setErrorMessageElement(userName, errorElement, userNameForm);
-        break;
 
-      case email:
-        setErrorMessageElement(email, errorElement, emailForm);
-        break;
-
-      case password:
-        setErrorMessageElement(password, errorElement, passwordForm);
-        break;
-
-      default:
-        break;
-    }
+    setErrorMessageElement(key, errorElement, formElement);
   });
 };
 
@@ -50,9 +34,6 @@ const errorMessageIdNames = {
 
 // 初期化処理：エラーメッセージDOMの生成（初期はテキストは空にしておく）
 initErrorMessageCreate(errorMessageIdNames);
-const userNameErrorElement = document.getElementById(errorMessageIdNames.userName);
-const emailErrorElement = document.getElementById(errorMessageIdNames.email);
-const passwordErrorElement = document.getElementById(errorMessageIdNames.password);
 
 let validFlags = {
   userName: false,
@@ -117,23 +98,9 @@ const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
 };
 
 Object.keys(validFragsAndErrors.errorMessageIdNames).forEach((key) => {
+  const errorElement = document.getElementById(`js-${key}Error`);
   form[key].addEventListener("blur", (e) => {
-    switch (key) {
-      case "userName":
-        validFlagsAndErrorMessageHandler("userName", userNameErrorElement);
-        break;
-
-      case "email":
-        validFlagsAndErrorMessageHandler("email", emailErrorElement);
-        break;
-
-      case "password":
-        validFlagsAndErrorMessageHandler("password", passwordErrorElement);
-        break;
-
-      default:
-        break;
-    }
+    validFlagsAndErrorMessageHandler(key, errorElement);
     changeDisabledSubmitBtn();
   });
 });
