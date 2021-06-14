@@ -9,19 +9,19 @@ const form = document.getElementById("js-form");
 const term = document.getElementById("js-term");
 const submit = document.getElementById("js-submit");
 
-const setErrorMessageElement = (id, errorElement, formElement) => {
+const setErrorMessage = (id, errorElement, formElement) => {
   errorElement.id = `js-${id}Error`;
   const formParentElement = formElement.parentNode;
   formParentElement.appendChild(errorElement);
 };
 
-const initErrorMessageCreate = (errorMessageIdNames) => {
+const createErrorMessage = (errorMessageIdNames) => {
   Object.keys(errorMessageIdNames).forEach((key) => {
     const formElement = document.getElementById(`js-${key}`);
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
 
-    setErrorMessageElement(key, errorElement, formElement);
+    setErrorMessage(key, errorElement, formElement);
   });
 };
 
@@ -33,7 +33,7 @@ const errorMessageIdNames = {
 };
 
 // 初期化処理：エラーメッセージDOMの生成（初期はテキストは空にしておく）
-initErrorMessageCreate(errorMessageIdNames);
+createErrorMessage(errorMessageIdNames);
 
 let validFlags = {
   userName: false,
