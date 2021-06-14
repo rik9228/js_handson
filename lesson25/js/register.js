@@ -81,23 +81,17 @@ const isValid = (key) => {
   }
 };
 
-const validFragsAndErrors = {
-  validFlags,
-  errorMessages,
-  errorMessageIdNames,
-};
-
 const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
   if (isValid(key)) {
-    validFragsAndErrors.validFlags[key] = true;
+    validFlags[key] = true;
     errorMessage.textContent = "";
   } else {
-    validFragsAndErrors.validFragsAndErrors.validFlags.key = false;
+    validFlags.key = false;
     errorMessage.textContent = errorMessages[key];
   }
 };
 
-Object.keys(validFragsAndErrors.errorMessageIdNames).forEach((key) => {
+Object.keys(errorMessageIdNames).forEach((key) => {
   const errorElement = document.getElementById(`js-${key}Error`);
   form[key].addEventListener("blur", (e) => {
     validFlagsAndErrorMessageHandler(key, errorElement);
@@ -109,7 +103,7 @@ modalWrapper.addEventListener("scroll", (e) => {
   if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.disabled = false;
     checkbox.checked = true;
-    validFragsAndErrors.validFlags["useTerm"] = true;
+    validFlags["useTerm"] = true;
     changeDisabledSubmitBtn();
   }
 });
@@ -132,9 +126,9 @@ closeButton.addEventListener("click", () => {
 
 checkbox.addEventListener("click", () => {
   if (checkbox.checked) {
-    validFragsAndErrors.validFlags["useTerm"] = true;
+    validFlags["useTerm"] = true;
   } else {
-    validFragsAndErrors.validFlags["useTerm"] = false;
+    validFlags["useTerm"] = false;
   }
   changeDisabledSubmitBtn();
 });
