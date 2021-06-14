@@ -100,36 +100,49 @@ const isValid = (key) => {
   }
 };
 
+const validFragsAndErrors = {
+  validFlags,
+  errorMessages,
+  errorMessageIdNames,
+};
+
 const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
   if (isValid(key)) {
-    validFlags[key] = true;
+    validFragsAndErrors.validFlags[key] = true;
     errorMessage.textContent = "";
   } else {
-    validFlags.key = false;
+    validFragsAndErrors.validFragsAndErrors.validFlags.key = false;
     errorMessage.textContent = errorMessages[key];
   }
 };
 
-userNameForm.addEventListener("blur", (e) => {
-  validFlagsAndErrorMessageHandler("userName", userNameErrorElement);
-  changeDisabledSubmitBtn();
-});
+Object.keys(validFragsAndErrors.errorMessageIdNames).forEach((key) => {
+  form[key].addEventListener("blur", (e) => {
+    switch (key) {
+      case "userName":
+        validFlagsAndErrorMessageHandler("userName", userNameErrorElement);
+        break;
 
-emailForm.addEventListener("blur", (e) => {
-  validFlagsAndErrorMessageHandler("email", emailErrorElement);
-  changeDisabledSubmitBtn();
-});
+      case "email":
+        validFlagsAndErrorMessageHandler("email", emailErrorElement);
+        break;
 
-passwordForm.addEventListener("blur", (e) => {
-  validFlagsAndErrorMessageHandler("password", passwordErrorElement);
-  changeDisabledSubmitBtn();
+      case "password":
+        validFlagsAndErrorMessageHandler("password", passwordErrorElement);
+        break;
+
+      default:
+        break;
+    }
+    changeDisabledSubmitBtn();
+  });
 });
 
 modalWrapper.addEventListener("scroll", (e) => {
   if (scrollHeight - (clientHeight + e.target.scrollTop) === 0) {
     checkbox.disabled = false;
     checkbox.checked = true;
-    validFlags.useTerm = true;
+    validFragsAndErrors.validFlags["useTerm"] = true;
     changeDisabledSubmitBtn();
   }
 });
@@ -152,9 +165,9 @@ closeButton.addEventListener("click", () => {
 
 checkbox.addEventListener("click", () => {
   if (checkbox.checked) {
-    validFlags.useTerm = true;
+    validFragsAndErrors.validFlags["useTerm"] = true;
   } else {
-    validFlags.useTerm = false;
+    validFragsAndErrors.validFlags["useTerm"] = false;
   }
   changeDisabledSubmitBtn();
 });
