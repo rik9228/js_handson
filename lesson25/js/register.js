@@ -92,7 +92,7 @@ const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
 };
 
 Object.keys(errorMessageIdNames).forEach((key) => {
-  const errorElement = document.getElementById(`js-${key}Error`);
+  const errorElement = document.getElementById(errorMessageIdNames[key]);
   form[key].addEventListener("blur", (e) => {
     validFlagsAndErrorMessageHandler(key, errorElement);
     changeDisabledSubmitBtn();
