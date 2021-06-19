@@ -86,7 +86,7 @@ const validFlagsAndErrorMessageHandler = (key, errorMessage) => {
     validFlags[key] = true;
     errorMessage.textContent = "";
   } else {
-    validFlags.key = false;
+    validFlags[key] = false;
     errorMessage.textContent = errorMessages[key];
   }
 };
