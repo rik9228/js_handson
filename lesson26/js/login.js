@@ -1,7 +1,7 @@
 "use strict";
 
 const form = document.getElementById("js-form");
-const submit = document.getElementById("js-submit");
+const submitButton = document.getElementById("js-submit");
 const userNameForm = document.getElementById("js-userName");
 const passwordForm = document.getElementById("js-password");
 
@@ -122,12 +122,12 @@ const checkUserNameAndPassword = (data) => data.userName === localStorage.userNa
 // trueを返す
 const checkLogin = (data) => {
   if (checkUserNameAndPassword(data)) {
-    const token = { token: "fafae92rfjafa03", ok: true, code: 200 };
+    const response = { token: "fafae92rfjafa03", ok: true, code: 200 };
     sessionStorage.setItem("token", "fafae92rfjafa03");
-    return token;
+    return response;
   } else {
-    const token = { token: false, code: 401 };
-    return token;
+    const response = { ok: false, code: 401 };
+    throw response;
   }
 };
 
@@ -136,17 +136,15 @@ const login = (data) => {
     if (checkLogin(data)) {
       resolve(checkLogin(data));
     } else {
-      reject("ログインに失敗しました");
+      reject(data);
     }
   });
 
   loginPromise.then((value) => {
-    console.log(value);
     location.href = "content.html";
   });
 
   loginPromise.catch((e) => {
-    console.log(e);
     location.href = "loginFailed.html";
   });
 };
