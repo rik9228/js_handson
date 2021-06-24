@@ -112,8 +112,8 @@ const setLocalStorage = () => {
     userName: "rikumorishita",
     password: "N302aoe3",
   };
-  localStorage.setItem("userName", loginInfo.userName);
-  localStorage.setItem("password", loginInfo.password);
+  localStorage.setItem("userName", userNameForm.value);
+  localStorage.setItem("password", passwordForm.value);
   return loginInfo;
 };
 
@@ -122,6 +122,8 @@ const checkUserNameAndPassword = (data) => data.userName === localStorage.userNa
 // trueを返す
 const checkLogin = (data) => {
   if (checkUserNameAndPassword(data)) {
+    localStorage.setItem("userName", userNameForm.value);
+    localStorage.setItem("password", passwordForm.value);
     const response = { token: "fafae92rfjafa03", ok: true, code: 200 };
     return response;
   } else {
