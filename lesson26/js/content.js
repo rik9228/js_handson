@@ -9,5 +9,5 @@ window.addEventListener("load", () => {
 
 logout.addEventListener("click", () => {
   localStorage.removeItem("token");
-  location.href = "login.html";
+  location.href = "index.html";
 });
