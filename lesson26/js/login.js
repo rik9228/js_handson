@@ -40,9 +40,9 @@ let validFlags = {
 
 const changeDisabledSubmit = () => {
   if (Object.values(validFlags).includes(false)) {
-    submit.disabled = true;
+    submitButton.disabled = true;
   } else {
-    submit.disabled = false;
+    submitButton.disabled = false;
   }
 };
 
@@ -123,7 +123,6 @@ const checkUserNameAndPassword = (data) => data.userName === localStorage.userNa
 const checkLogin = (data) => {
   if (checkUserNameAndPassword(data)) {
     const response = { token: "fafae92rfjafa03", ok: true, code: 200 };
-    sessionStorage.setItem("token", "fafae92rfjafa03");
     return response;
   } else {
     const response = { ok: false, code: 401 };
@@ -141,6 +140,7 @@ const login = (data) => {
   });
 
   loginPromise.then((value) => {
+    localStorage.setItem("token", value.token);
     location.href = "content.html";
   });
 
