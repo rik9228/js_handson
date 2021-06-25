@@ -5,6 +5,12 @@ const submitButton = document.getElementById("js-submit");
 const userNameForm = document.getElementById("js-userName");
 const passwordForm = document.getElementById("js-password");
 
+window.addEventListener("load", () => {
+  if (localStorage.getItem("token")) {
+    location.href = "content.html";
+  }
+});
+
 const setErrorMessage = (errorElement, formElement) => {
   const formParentElement = formElement.parentNode;
   formParentElement.appendChild(errorElement);
@@ -144,9 +150,3 @@ const loginHandler = async (e) => {
 };
 
 form.addEventListener("submit", loginHandler);
-
-window.addEventListener("load", () => {
-  if (localStorage.getItem("token")) {
-    location.href = "content.html";
-  }
-});
