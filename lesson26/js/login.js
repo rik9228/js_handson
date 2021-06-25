@@ -128,7 +128,7 @@ const login = (data) => {
     if (checkLogin(data).ok) {
       resolve(checkLogin(data));
     } else {
-      reject(data);
+      reject(checkLogin(data));
     }
   });
 
