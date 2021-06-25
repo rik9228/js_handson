@@ -5,8 +5,7 @@ const submitButton = document.getElementById("js-submit");
 const userNameForm = document.getElementById("js-userName");
 const passwordForm = document.getElementById("js-password");
 
-const setErrorMessage = (id, errorElement, formElement) => {
-  errorElement.id = `js-${id}Error`;
+const setErrorMessage = (errorElement, formElement) => {
   const formParentElement = formElement.parentNode;
   formParentElement.appendChild(errorElement);
 };
@@ -16,8 +15,9 @@ const createErrorMessage = (errorMessageIdNames) => {
     const formElement = document.getElementById(`js-${key}`);
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
+    errorElement.id = `js-${key}Error`;
 
-    setErrorMessage(key, errorElement, formElement);
+    setErrorMessage(errorElement, formElement);
   });
 };
 
@@ -33,12 +33,12 @@ createErrorMessage(errorMessageIdNames);
 const userNameErrorElement = document.getElementById(errorMessageIdNames.userName);
 const passwordErrorElement = document.getElementById(errorMessageIdNames.password);
 
-let validFlags = {
+const validFlags = {
   userName: false,
   password: false,
 };
 
-const changeDisabledSubmit = () => {
+const changeDisabledSubmitButtonState = () => {
   if (Object.values(validFlags).includes(false)) {
     submitButton.disabled = true;
   } else {
@@ -64,7 +64,7 @@ const errorMessages = {
 const isValid = (key) => {
   switch (key) {
     case "userName":
-      return form[key].value.length <= validateTerms.userNameMaxCount;
+      return form[key].value.length <= validateTerms[key].maxLength;
 
     case "password":
       return validateTerms[key].passwordRegex.test(form[key].value);
@@ -73,38 +73,28 @@ const isValid = (key) => {
   }
 };
 
-const errorMessageHandler = (key, errorMessage) => {
-  if (isValid(key)) {
-    errorMessage.textContent = "";
-  } else {
-    errorMessage.textContent = errorMessages[key];
-  }
+const controlErrorMessage = (key, errorMessage) => {
+  errorMessage.textContent = isValid(key) ? "" : errorMessages[key];
 };
 
-const isValidLength = (key, inputValue) => inputValue.length < validateTerms[key].maxLength;
-
-const updateValidation = (key, isValid) => {
+const updateValidFlag = (key, isValid) => {
   validFlags[key] = isValid;
-};
-
-const updateTextContent = (key, isValid, elem) => {
-  elem.textContent = isValid ? "" : errorMessages[key];
 };
 
 userNameForm.addEventListener("blur", (e) => {
   const key = "userName";
-  const isValid = isValidLength(key, e.target.value);
-  updateValidation(key, isValid);
-  updateTextContent(key, isValid, userNameErrorElement);
-  changeDisabledSubmit();
+  const isValidUserName = isValid(key);
+  updateValidFlag(key, isValidUserName);
+  controlErrorMessage(key, userNameErrorElement);
+  changeDisabledSubmitButtonState();
 });
 
 passwordForm.addEventListener("blur", (e) => {
   const key = "password";
-  const isValidPassword = isValid(key, e.target.value);
-  updateValidation(key, isValidPassword);
-  updateTextContent(key, isValidPassword, passwordErrorElement);
-  changeDisabledSubmit();
+  const isValidPassword = isValid(key);
+  updateValidFlag(key, isValidPassword);
+  controlErrorMessage(key, passwordErrorElement);
+  changeDisabledSubmitButtonState();
 });
 
 const getLoginInfo = () => {
