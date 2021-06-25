@@ -138,7 +138,7 @@ const login = (data) => {
   });
 
   loginPromise.catch(() => {
-    location.href = "loginFailed.html";
+    location.href = "loginfailed.html";
   });
 };
 
