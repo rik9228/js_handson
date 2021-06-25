@@ -107,23 +107,19 @@ passwordForm.addEventListener("blur", (e) => {
   changeDisabledSubmit();
 });
 
-const setLocalStorage = () => {
+const getLoginInfo = () => {
   const loginInfo = {
     userName: "rikumorishita",
     password: "N302aoe3",
   };
-  localStorage.setItem("userName", userNameForm.value);
-  localStorage.setItem("password", passwordForm.value);
   return loginInfo;
 };
 
-const checkUserNameAndPassword = (data) => data.userName === localStorage.userName && data.password === localStorage.password;
+const checkUserNameAndPassword = (data) => data.userName === userNameForm.value && data.password === passwordForm.value;
 
 // trueを返す
 const checkLogin = (data) => {
   if (checkUserNameAndPassword(data)) {
-    localStorage.setItem("userName", userNameForm.value);
-    localStorage.setItem("password", passwordForm.value);
     const response = { token: "fafae92rfjafa03", ok: true, code: 200 };
     return response;
   } else {
@@ -153,7 +149,7 @@ const login = (data) => {
 
 const loginHandler = async (e) => {
   e.preventDefault();
-  const data = setLocalStorage();
+  const data = getLoginInfo();
   await login(data);
 };
 
