@@ -53,7 +53,7 @@ const changeDisabledSubmitButtonState = () => {
 };
 
 // バリデーション条件
-let validateTerms = {
+const validateTerms = {
   userName: {
     maxLength: 15,
   },
@@ -103,7 +103,7 @@ passwordForm.addEventListener("blur", (e) => {
   changeDisabledSubmitButtonState();
 });
 
-const getLoginInfo = () => {
+const setLoginInfo = () => {
   const loginInfo = {
     userName: "rikumorishita",
     password: "N302aoe3",
@@ -113,7 +113,6 @@ const getLoginInfo = () => {
 
 const checkUserNameAndPassword = (data) => data.userName === userNameForm.value && data.password === passwordForm.value;
 
-// trueを返す
 const checkLogin = (data) => {
   if (checkUserNameAndPassword(data)) {
     const response = { token: "fafae92rfjafa03", ok: true, code: 200 };
@@ -126,26 +125,26 @@ const checkLogin = (data) => {
 
 const login = (data) => {
   const loginPromise = new Promise((resolve, reject) => {
-    if (checkLogin(data)) {
+    if (checkLogin(data).ok) {
       resolve(checkLogin(data));
     } else {
       reject(data);
     }
   });
 
-  loginPromise.then((value) => {
-    localStorage.setItem("token", value.token);
+  loginPromise.then((res) => {
+    localStorage.setItem("token", res.token);
     location.href = "content.html";
   });
 
-  loginPromise.catch((e) => {
+  loginPromise.catch(() => {
     location.href = "loginFailed.html";
   });
 };
 
 const loginHandler = async (e) => {
   e.preventDefault();
-  const data = getLoginInfo();
+  const data = setLoginInfo();
   await login(data);
 };
 
