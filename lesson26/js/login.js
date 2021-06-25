@@ -39,7 +39,7 @@ createErrorMessage(errorMessageIdNames);
 const userNameErrorElement = document.getElementById(errorMessageIdNames.userName);
 const passwordErrorElement = document.getElementById(errorMessageIdNames.password);
 
-const validFlags = {
+let validFlags = {
   userName: false,
   password: false,
 };
