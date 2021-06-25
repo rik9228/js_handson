@@ -7,7 +7,7 @@ const closeButton = document.getElementById("js-close");
 
 const form = document.getElementById("js-form");
 const term = document.getElementById("js-term");
-const submit = document.getElementById("js-submit");
+const submitButton = document.getElementById("js-submit");
 
 const setErrorMessage = (id, errorElement, formElement) => {
   errorElement.id = `js-${id}Error`;
@@ -44,10 +44,10 @@ let validFlags = {
 
 const changeDisabledSubmitBtn = () => {
   if (Object.values(validFlags).includes(false)) {
-    submit.disabled = true;
+    submitButton.disabled = true;
     checkbox.disabled = true;
   } else {
-    submit.disabled = false;
+    submitButton.disabled = false;
     checkbox.disabled = false;
   }
 };
