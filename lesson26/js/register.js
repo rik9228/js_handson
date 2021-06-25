@@ -9,8 +9,7 @@ const form = document.getElementById("js-form");
 const term = document.getElementById("js-term");
 const submitButton = document.getElementById("js-submit");
 
-const setErrorMessage = (id, errorElement, formElement) => {
-  errorElement.id = `js-${id}Error`;
+const setErrorMessage = (errorElement, formElement) => {
   const formParentElement = formElement.parentNode;
   formParentElement.appendChild(errorElement);
 };
@@ -20,8 +19,9 @@ const createErrorMessage = (errorMessageIdNames) => {
     const formElement = document.getElementById(`js-${key}`);
     const errorElement = document.createElement("p");
     errorElement.classList.add("errorMessage");
+    errorElement.id = `js-${key}Error`;
 
-    setErrorMessage(key, errorElement, formElement);
+    setErrorMessage(errorElement, formElement);
   });
 };
 
