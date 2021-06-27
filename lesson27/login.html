@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Lesson27 - ログインページ</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1 class="title">ログインページ</h1>
+      <form action="" method="post" class="form" id="js-form">
+        <div class="form__box">
+          <label class="label" for="js-userName">※ユーザー名</label>
+          <input class="input-form" type="text" id="js-userName" name="userName" />
+        </div>
+        <div class="form__box">
+          <label class="label" for="js-password">※パスワード</label>
+          <input class="input-form" type="password" id="js-password" name="password" autocomplete="off" />
+        </div>
+
+        <div class="form__box-02">
+          <a href="forgotpassword.html" class="text">パスワードを忘れた方へ</a>
+        </div>
+
+        <div class="form__box-02">
+          <a href="register.html" class="text">会員登録はこちらより</a>
+        </div>
+
+        <div class="form__box-03">
+          <input class="submit" id="js-submit" type="submit" value="ログインする" name="submit" disabled />
+        </div>
+      </form>
+    </div>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>
