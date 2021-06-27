@@ -2,7 +2,7 @@
 
 window.addEventListener("load", () => {
   if (localStorage.getItem("token", "far0fja*ff]afaawfqrlzkfq@aq9283af")) {
-    location.href = "contents.html";
+    location.href = "content.html";
   } else {
     location.href = "login.html";
   }
