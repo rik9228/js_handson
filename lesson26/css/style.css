@@ -14,20 +14,16 @@
   margin-top: 40px;
 }
 
-.box {
-  display: flex;
-}
-
-.box-02 {
-  margin-top: 32px;
+.form__box-02 {
+  margin-top: 24px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.box:not(:first-of-type) {
-  margin-top: 24px;
+.form__box:not(:first-of-type) {
+  margin-top: 8px;
 }
 
 .title {
@@ -35,15 +31,15 @@
 }
 
 .input-form {
-  width: 100%;
-  margin-left: 16px;
-  display: block;
+  width: 70%;
+  display: inline-block;
   padding: 0.35em;
   font-size: 14px;
 }
 
 .label {
   width: 180px;
+  display: inline-block;
 }
 
 .checkbox {
@@ -58,6 +54,10 @@
   border: none;
   background: #00bd00;
   color: #fff;
+}
+
+.submit:disabled {
+  background: #ccc;
 }
 
 .term {
@@ -81,11 +81,6 @@
   visibility: hidden;
   opacity: 0;
   transition: 0.5s;
-}
-
-.show {
-  visibility: visible;
-  opacity: 1;
 }
 
 .modal__wrapper {
@@ -137,4 +132,14 @@
   color: #000;
   overflow-y: scroll;
   height: 100%;
+}
+
+.errorMessage {
+  color: red;
+  text-indent: 11.5em;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
 }

@@ -2,34 +2,42 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <link rel="stylesheet" href="css/style.css" />
-    <title>Lesson24</title>
+    <title>Lesson26 - 会員登録</title>
   </head>
   <body>
     <div class="wrapper">
       <h1 class="title">会員登録</h1>
-      <form method="POST" class="form" id="js-form" action="register-done.html">
-        <div class="box">
-          <label class="label" for="js-userName">ユーザー名</label>
-          <input class="input-form" type="text" id="js-userName" />
+      <form action="" method="post" class="form" id="js-form" action="register-done.html">
+        <div class="form__box">
+          <label class="label" for="js-userName">※ユーザー名</label>
+          <input class="input-form" type="text" id="js-userName" name="userName" />
         </div>
-        <div class="box">
-          <label class="label" for="js-email">メールアドレス</label>
-          <input class="input-form" type="text" id="js-email" />
+        <div class="form__box">
+          <label class="label" for="js-email">※メールアドレス</label>
+          <input class="input-form" type="text" id="js-email" name="email" />
         </div>
-        <div class="box">
-          <label class="label" for="js-password">パスワード</label>
-          <input class="input-form" type="text" id="js-password" />
+        <div class="form__box">
+          <label class="label" for="js-password">※パスワード</label>
+          <input class="input-form" type="password" id="js-password" name="password" autocomplete="off" />
         </div>
 
-        <div class="box-02">
-          <input type="checkbox" id="js-checkbox" class="checkbox" />
+        <div class="form__box-02">
+          <input type="checkbox" id="js-checkbox" class="checkbox" name="useTerm" disabled required />
           <p class="text"><span class="term" id="js-term">利用規約</span>を読み同意しました</p>
         </div>
 
-        <div class="box-03">
-          <input class="submit" id="js-submit" type="submit" value="送信" />
+        <div class="form__box-02">
+          <a class="text" href="forgotpassword.html">パスワードを忘れた方へ</a>
+        </div>
+
+        <div class="form__box-02">
+          <a class="text" href="index.html">ログインはこちら</a>
+        </div>
+
+        <div class="form__box-03">
+          <input class="submit" id="js-submit" type="submit" value="送信" name="submit" disabled />
         </div>
       </form>
     </div>
