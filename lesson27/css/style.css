@@ -1,15 +1,3 @@
-* {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.wrapper {
-  max-width: 800px;
-  margin: 120px auto 0;
-}
-
 .form {
   margin-top: 40px;
 }
@@ -137,9 +125,4 @@
 .errorMessage {
   color: red;
   text-indent: 11.5em;
-}
-
-.show {
-  visibility: visible;
-  opacity: 1;
 }

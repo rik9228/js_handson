@@ -1,0 +1,24 @@
+* {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.wrapper {
+  max-width: 800px;
+  width: calc(100% - 32px * 2);
+  margin: 120px auto;
+}
+
+.wrapper--content {
+  display: none;
+}
+
