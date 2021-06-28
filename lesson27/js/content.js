@@ -1,19 +1,6 @@
 "use strict";
 
 {
-  const logoutButton = document.getElementById("js-logout");
-
-  logoutButton.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    location.href = "index.html";
-  });
-
-  window.addEventListener("storage", () => {
-    if (!localStorage.getItem("token")) {
-      location.href = "index.html";
-    }
-  });
-
   const resourceUrl = "https://jsondata.okiba.me/v1/json/C58qe210426143842";
   const slideAndListWrapper = document.getElementById("js-wrapper");
   const slideList = document.getElementById("js-slideList");
@@ -21,6 +8,7 @@
   const nextButton = document.getElementById("js-next");
   const navNum = document.getElementById("js-navNum");
   const navDots = document.getElementById("js-navDots");
+  const logoutButton = document.getElementById("js-logout");
   let fragmentSlide = document.createDocumentFragment();
   let fragmentNavDots = document.createDocumentFragment();
   let timeOutId = null;
@@ -89,7 +77,7 @@
       li.classList.add("active");
     }
 
-    slideAndListWrapper.classList.add("show");
+    slideAndListWrapper.style.display = "block";
     fragmentSlide.appendChild(li);
   };
 
@@ -178,5 +166,16 @@
     changeImage(beforeNum, slides, navDots);
     clearTimeout(timeOutId);
     autoPlay();
+  });
+
+  logoutButton.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    location.href = "index.html";
+  });
+
+  window.addEventListener("storage", () => {
+    if (!localStorage.getItem("token")) {
+      location.href = "index.html";
+    }
   });
 }
