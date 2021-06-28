@@ -1,7 +1,7 @@
 "use strict";
 
 window.addEventListener("load", () => {
-  if (localStorage.getItem("token", "far0fja*ff]afaawfqrlzkfq@aq9283af")) {
+  if (localStorage.getItem("token")) {
     location.href = "content.html";
   } else {
     location.href = "login.html";
